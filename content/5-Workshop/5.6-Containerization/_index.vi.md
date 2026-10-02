@@ -8,15 +8,13 @@ pre : " <b> 5.6. </b> "
 
 ### Mục tiêu
 
-Đóng gói ứng dụng Second-Hand Marketplace thành Docker container và chuẩn bị image để triển khai trên Amazon ECS.
+Đóng gói API FastAPI, Docling và các thư viện cần thiết thành Docker image để chạy trên EC2.
 
 ---
 
 ## 1. Tổng quan
 
-Trong chương này, bạn sẽ đóng gói ứng dụng Node.js thành Docker container và tải container image lên Amazon Elastic Container Registry (Amazon ECR).
-
-Docker giúp tạo môi trường chạy thống nhất cho ứng dụng, trong khi Amazon ECR lưu trữ container image để sử dụng khi triển khai lên Amazon ECS.
+CloudCV dùng Python 3.12. Image cài Docling cùng bản PyTorch chỉ chạy CPU và tải trước các model phân tích bố cục cần cho Docling. Báo cáo triển khai image trực tiếp trên EC2, không dùng Amazon ECR.
 
 ---
 
@@ -24,9 +22,8 @@ Docker giúp tạo môi trường chạy thống nhất cho ứng dụng, trong 
 
 Thực hiện lần lượt các phần sau:
 
-- **5.6.1 Tạo Dockerfile**
-- **5.6.2 Build Docker Image**
-- **5.6.3 Đẩy Image lên Amazon ECR**
+- **5.6.1 Build Docker Image**
+- **5.6.2 Chuẩn bị container chạy trên EC2**
 
 ---
 
@@ -34,7 +31,6 @@ Thực hiện lần lượt các phần sau:
 
 Sau khi hoàn thành chương này, bạn sẽ có:
 
-- Dockerfile cho ứng dụng.
-- Docker Image được build thành công.
-- Docker Image được lưu trữ trên Amazon ECR.
-- Docker Image sẵn sàng để triển khai trên Amazon ECS.
+- Docker image đóng gói API và phụ thuộc xử lý tài liệu.
+- Model Docling có sẵn khi container khởi động.
+- Cấu hình runtime sẵn sàng cho triển khai trực tiếp trên EC2.

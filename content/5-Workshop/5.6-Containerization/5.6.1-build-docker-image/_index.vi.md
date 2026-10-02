@@ -8,37 +8,13 @@ pre : " <b> 5.6.1. </b> "
 
 ## Build Docker Image
 
-Trong phần này, bạn sẽ tạo Dockerfile và build Docker Image cho ứng dụng Second-Hand Marketplace.
-
-Docker giúp đóng gói ứng dụng cùng các thư viện cần thiết vào một container, đảm bảo môi trường chạy nhất quán giữa môi trường phát triển và triển khai.
+CloudCV được đóng gói trong image dựa trên Python 3.12. Vì Docling phụ thuộc vào thư viện xử lý tài liệu và model bố cục, image cài bản PyTorch CPU và tải trước các model cần dùng.
 
 ---
 
 ## Tạo Dockerfile
 
-Mở thư mục dự án và tạo tệp **Dockerfile** tại thư mục gốc của dự án.
-
-Dockerfile được sử dụng trong dự án như sau.
-
-```dockerfile
-FROM node:20-alpine
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
-```
-
-Lưu Dockerfile sau khi hoàn tất cấu hình.
-
-![Dockerfile](/images/5-Workshop/5.6-Containerization/dockerfile.png)
+Dockerfile của dự án cần cài dependencies Python, sao chép mã nguồn và chuẩn bị model Docling trong image. Báo cáo không cung cấp nội dung Dockerfile đầy đủ, vì vậy hãy dùng Dockerfile trong kho mã nguồn thay vì chép một ví dụ không khớp.
 
 ---
 
@@ -49,22 +25,21 @@ Sau khi tạo Dockerfile, mở Terminal tại thư mục gốc của dự án v�
 Chạy lệnh sau:
 
 ```bash
-docker build -t secondhand-marketplace .
+docker build -t cloudcv .
 ```
 
 Trong quá trình build, Docker sẽ thực hiện các bước sau:
 
-1. Tải Node.js base image nếu chưa có trên máy.
-2. Tạo thư mục làm việc bên trong container.
-3. Sao chép toàn bộ mã nguồn của dự án vào container.
-4. Cài đặt các thư viện của ứng dụng bằng **npm install**.
-5. Đóng gói toàn bộ ứng dụng thành một Docker Image.
+1. Tải Python 3.12 base image nếu chưa có.
+2. Cài các thư viện của API và Docling, gồm bản PyTorch CPU.
+3. Sao chép mã nguồn và tải trước model phân tích bố cục.
+4. Đóng gói dịch vụ thành Docker image.
 
 Sau khi build thành công, Docker sẽ hiển thị thông báo tương tự:
 
 ```text
 Successfully built <IMAGE_ID>
-Successfully tagged secondhand-marketplace:latest
+Successfully tagged cloudcv:latest
 ```
 
 Để kiểm tra Docker Image vừa tạo, chạy lệnh:
@@ -81,6 +56,5 @@ Lệnh này sẽ hiển thị danh sách Docker Image trên máy. Xác nhận Do
 
 Sau khi hoàn thành phần này, bạn sẽ có:
 
-- Dockerfile được tạo thành công.
-- Docker Image được build thành công.
-- Docker Image sẵn sàng để đẩy lên Amazon ECR.
+- Image `cloudcv:latest` được build thành công.
+- Container có thể khởi động mà không cần tải model Docling lần đầu.

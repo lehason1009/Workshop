@@ -1,5 +1,5 @@
 ---
-title : "CI/CD"
+title : "Mã nguồn và phát hành thủ công"
 date : 2026-01-01
 weight : 9
 chapter : false
@@ -8,17 +8,13 @@ pre : " <b> 5.9. </b> "
 
 ### Mục tiêu
 
-Cấu hình quy trình CI/CD cho ứng dụng Second-Hand Marketplace bằng AWS CodeBuild.
+Mô tả cách quản lý mã CloudCV trên GitHub và triển khai thủ công lên EC2.
 
 ---
 
 ## 1. Tổng quan
 
-Trong chương này, bạn sẽ cấu hình AWS CodeBuild để tự động hóa quá trình build ứng dụng.
-
-Khi mã nguồn trên GitHub được cập nhật, AWS CodeBuild sẽ build Docker Image, đẩy Image lên Amazon ECR và chuẩn bị phiên bản mới nhất để triển khai.
-
-Quá trình này giúp giảm các thao tác triển khai thủ công và đảm bảo quy trình build được thực hiện nhất quán.
+GitHub được dùng để quản lý mã nguồn; báo cáo không triển khai AWS CodeBuild hay pipeline CI/CD. Quy trình ghi nhận là kết nối EC2 qua SSH, lấy mã nguồn, build Docker image và khởi động lại container.
 
 ---
 
@@ -26,7 +22,7 @@ Quá trình này giúp giảm các thao tác triển khai thủ công và đảm
 
 Thực hiện phần sau:
 
-- **5.9.1 Cấu hình AWS CodeBuild**
+- **5.9.1 Quy trình phát hành thủ công**
 
 ---
 
@@ -34,7 +30,6 @@ Thực hiện phần sau:
 
 Sau khi hoàn thành chương này, bạn sẽ có:
 
-- Một dự án AWS CodeBuild kết nối với GitHub.
-- Docker Image được build tự động.
-- Docker Image được đẩy lên Amazon ECR.
-- Quy trình CI/CD có thể lặp lại cho các lần triển khai tiếp theo.
+- Thay đổi mã được quản lý trên GitHub.
+- Quy trình triển khai thủ công có thể lặp lại trên EC2.
+- Không nhầm quy trình này với CI/CD tự động.

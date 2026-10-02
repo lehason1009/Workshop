@@ -6,78 +6,30 @@ chapter : false
 pre : " <b> 5.3. </b> "
 ---
 
-## Prepare Project
+## CloudCV Project Foundation
 
-In this section, you will prepare the application source code before deploying it to AWS. This includes cloning the repository, installing the required dependencies, configuring the environment variables, and verifying that the application runs successfully in the local environment.
+CloudCV is a **FastAPI** REST API. Obtain the project source from its GitHub repository and install dependencies using the project's dependency file; the report does not specify a repository URL or exact install command.
 
----
+## API Contract
 
-## Clone the Repository
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/health` | Check service health |
+| `POST` | `/cvs` | Submit a CV for analysis and return its ID and JSON result |
+| `GET` | `/cvs` | List analyzed CVs |
+| `GET` | `/cvs/{cvId}` | Retrieve one CV result |
+| `DELETE` | `/cvs/{cvId}` | Delete the CV and result stored in S3 |
 
-Clone the project source code from GitHub.
+All endpoints except `/health` require an `X-API-Key` header. CV uploads use `multipart/form-data`; the API accepts PDF/DOCX files up to 5 MB.
 
-```bash
-git clone <repository-url>
-cd <project-folder>
-```
+## Result Schema
 
----
+Pydantic validates JSON fields grouped as `full_name`, `email`, `phone`, `address`, `summary`, `education`, `experience`, `skills`, `languages`, and `certifications`. The prompt instructs the model to extract only facts present in the CV, avoid guessing missing values, and normalize dates to year-month. Missing fields use `null` or an empty list as defined by the schema.
 
-## Install Dependencies
+## Configuration and Authentication
 
-Install all required Node.js packages.
-
-```bash
-npm install
-```
-
-Wait until the installation completes successfully.
-
----
-
-## Configure Environment Variables
-
-Create a `.env` file in the project root directory and configure the required environment variables.
-
-Example:
-
-```text
-PORT=3000
-MONGODB_URI=<your-mongodb-uri>
-SESSION_SECRET=<your-session-secret>
-AWS_REGION=ap-southeast-1
-AWS_S3_BUCKET=<your-s3-bucket>
-AWS_ACCESS_KEY_ID=<your-access-key>
-AWS_SECRET_ACCESS_KEY=<your-secret-key>
-```
-
-![Configure Environment Variables](/images/5-Workshop/5.3-Project-foundation/env-file.png)
-
----
-
-## Run the Application
-
-Start the application.
-
-```bash
-npm start
-```
-
-If the application starts successfully, open your browser and navigate to:
-
-```text
-http://localhost:3000
-```
-
-![Run the Application](/images/5-Workshop/5.3-Project-foundation/run-localhost.png)
-
----
+Provide the API key, bucket name, and required settings through the runtime environment instead of hard-coding them. On EC2, use an IAM role for S3 and Bedrock access; do not store static AWS access keys in the application configuration. Keep API keys and real CV data out of Git.
 
 ## Expected Result
 
-After completing this section, you should have:
-
-- Project source code cloned successfully.
-- Required dependencies installed.
-- Environment variables configured.
-- Application running successfully in the local environment.
+Understand the API endpoints, JSON schema, and configuration boundaries before packaging the service.

@@ -8,49 +8,46 @@ pre : " <b> 5.2. </b> "
 
 ### Mục tiêu
 
-Đảm bảo người đọc có thể truy cập AWS Management Console, chuẩn bị đầy đủ các công cụ phát triển cần thiết và tải mã nguồn dự án trước khi bắt đầu triển khai.
+Chuẩn bị tài khoản AWS, môi trường Python/Docker và công cụ gọi API trước khi làm việc với CloudCV.
 
 ---
 
 ## 1. Công cụ cần chuẩn bị
 
-Workshop này sử dụng **AWS Management Console (Web UI)** để tạo và quản lý các tài nguyên AWS. Không yêu cầu sử dụng AWS CLI hoặc các công cụ Infrastructure as Code (IaC).
+Các tài nguyên trong báo cáo được tạo và quản lý trên AWS. Cần một tài khoản có quyền tạo EC2, S3, IAM và truy cập Amazon Bedrock; quyền gọi mô hình phải được cấp trước khi kiểm thử tích hợp.
 
 Chuẩn bị các phần mềm sau:
 
-- **Node.js (v18+)**: Dùng để chạy ứng dụng trên máy cục bộ.
-- **Git**: Quản lý và tải mã nguồn dự án.
-- **Docker Desktop**: Dùng để xây dựng Docker Image.
-- **Visual Studio Code (hoặc IDE khác)**: Dùng để chỉnh sửa mã nguồn.
+- **Python 3.12** và môi trường cài thư viện Python.
+- **Docker** để build và chạy container.
+- **Git** để lấy mã nguồn và quản lý thay đổi.
+- **Postman** hoặc **curl** để gọi REST API; trình duyệt có thể dùng Swagger UI.
+- Một CV mẫu PDF hoặc DOCX, không lớn hơn giới hạn API 5 MB.
 
 ---
 
 ## 2. Các bước thực hiện
 
-**Đăng nhập AWS Console:** Đăng nhập vào AWS Management Console và đảm bảo Region được chọn là **ap-southeast-1 (Singapore)**.
+**Đăng nhập AWS Console:** Chọn Region phù hợp với quyền sử dụng Amazon Bedrock và xác nhận mô hình cần gọi khả dụng tại Region đó.
 
-**Checkpoint:** Xác nhận Region đang sử dụng là **ap-southeast-1** trước khi tạo tài nguyên.
+**Checkpoint:** Ghi lại Region dùng cho EC2 và Bedrock; hai dịch vụ phải được cấu hình nhất quán.
 
-**Kiểm tra công cụ cục bộ:** Đảm bảo các phần mềm đã được cài đặt thành công.
+**Kiểm tra công cụ cục bộ:** Xác nhận Python, Git và Docker đã sẵn sàng.
 
 ```bash
-node --version
-npm --version
+python --version
 git --version
 docker --version
 ```
 
 **Checkpoint:** Tất cả các lệnh đều trả về phiên bản hợp lệ.
 
-**Tải mã nguồn dự án:** Clone mã nguồn từ GitHub và mở dự án bằng Visual Studio Code.
-
-**Checkpoint:** Dự án được mở thành công và sẵn sàng cho quá trình triển khai.
+**Chuẩn bị quyền truy cập:** Tạo ngân sách AWS để nhận cảnh báo chi phí và yêu cầu quyền sử dụng mô hình Bedrock trước khi chạy API.
 
 ---
 
 ## 3. Kết quả mong đợi
 
-- Đăng nhập thành công vào AWS Management Console.
-- Chuẩn bị đầy đủ môi trường phát triển.
-- Tải thành công mã nguồn dự án.
-- Hoàn thành các điều kiện chuẩn bị trước khi chuyển sang chương tiếp theo.
+- Có môi trường Python 3.12, Docker và Git.
+- Có quyền tạo tài nguyên cần thiết và gọi mô hình Bedrock.
+- Có công cụ kiểm thử API cùng tệp CV mẫu.

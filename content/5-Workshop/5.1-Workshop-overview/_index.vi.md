@@ -8,121 +8,35 @@ pre : " <b> 5.1. </b> "
 
 ### Mục tiêu
 
-Workshop này hướng dẫn triển khai ứng dụng **Second-Hand Marketplace** trên nền tảng AWS bằng cách sử dụng kiến trúc Cloud-Native, các dịch vụ được quản lý (Managed Services), triển khai container và quy trình CI/CD tự động. Sau khi hoàn thành workshop, bạn sẽ có thể triển khai một ứng dụng web hoàn chỉnh với khả năng mở rộng, tính sẵn sàng cao và bảo mật.
+Giới thiệu kiến trúc, luồng xử lý và kết quả triển khai **CloudCV**: một REST API backend phân tích CV bằng Docling và mô hình ngôn ngữ trên Amazon Bedrock.
 
----
+## 1. Bài toán và giải pháp
 
-## 1. Giới thiệu bài toán và giải pháp
+Client gửi tệp PDF hoặc DOCX đến API. **FastAPI** kiểm tra yêu cầu, **Docling** chuyển tài liệu thành Markdown, sau đó ứng dụng gửi nội dung cùng prompt đến mô hình trên **Amazon Bedrock**. Dữ liệu trích xuất được kiểm tra theo schema **Pydantic** trước khi trả về cho client.
 
-**Second-Hand Marketplace** là một ứng dụng web cho phép người dùng đăng bán, tìm kiếm và mua các sản phẩm đã qua sử dụng. Hệ thống hỗ trợ các chức năng như đăng ký tài khoản, đăng nhập, quản lý danh mục, quản lý sản phẩm, tải lên hình ảnh sản phẩm và tìm kiếm sản phẩm.
+Đây là dịch vụ backend, không có giao diện người dùng. Các thao tác được thực hiện qua Postman, curl hoặc Swagger UI do FastAPI cung cấp.
 
-Thay vì triển khai ứng dụng trên một máy chủ truyền thống, workshop này áp dụng kiến trúc Cloud-Native trên AWS. Ứng dụng được đóng gói bằng **Docker** và triển khai trên **Amazon ECS Fargate**, hình ảnh sản phẩm được lưu trữ trên **Amazon S3**, trong khi dữ liệu được lưu trữ trên **MongoDB Atlas**.
+## 2. Kiến trúc và lưu trữ
 
-Để tăng cường tính bảo mật và khả năng quản lý, các thông tin nhạy cảm được lưu trong **AWS Secrets Manager**. Đồng thời, **Application Load Balancer**, **Amazon Route 53** và **AWS Certificate Manager (ACM)** được sử dụng để cung cấp truy cập an toàn thông qua giao thức HTTPS. Quá trình triển khai được tự động hóa bằng **AWS CodeBuild**, và hệ thống được giám sát thông qua **Amazon CloudWatch**.
+- Một container Docker chạy API trên máy ảo **Amazon EC2**.
+- **Amazon S3** lưu tệp CV gốc và kết quả JSON; bucket được cấu hình riêng tư.
+- **Amazon Bedrock** cung cấp mô hình ngôn ngữ để trích xuất thông tin.
+- **IAM Role** gắn với EC2 cấp quyền giới hạn để truy cập đúng bucket và gọi mô hình.
+- **VPC/Security Group** kiểm soát kết nối đến máy ảo; AWS Budgets cảnh báo chi phí.
 
----
+## 3. Luồng xử lý
 
-## 2. Kiến trúc hệ thống
+1. Client gửi CV cùng header `X-API-Key` đến `POST /cvs`.
+2. API xác thực khóa, kiểm tra định dạng và giới hạn dung lượng tệp.
+3. Docling chuyển PDF/DOCX thành Markdown có cấu trúc.
+4. Ứng dụng gửi nội dung đến Bedrock; Pydantic xác thực kết quả JSON.
+5. CV gốc và JSON được lưu trên S3; API trả mã CV và kết quả.
+6. Các endpoint khác liệt kê, truy xuất hoặc xóa CV đã xử lý.
 
-Kiến trúc của hệ thống bao gồm các thành phần chính sau:
+## 4. Phạm vi triển khai
 
-- Người dùng (Client)
-- Tên miền và HTTPS
-- Hạ tầng mạng
-- Ứng dụng chạy trên Container
-- Dịch vụ lưu trữ
-- Quy trình CI/CD
-- Giám sát hệ thống
+Báo cáo ghi nhận EC2, Docker, FastAPI, Docling, Bedrock, S3, IAM, VPC/Security Group, GitHub và AWS Budgets. ECS/Fargate, ECR, ALB, Route 53, ACM, CodeBuild và MongoDB Atlas không thuộc kiến trúc CloudCV đã triển khai.
 
-**Hình 1 – Kiến trúc hệ thống Second-Hand Marketplace**
+## 5. Kết quả
 
-![Kiến trúc hệ thống](/images/5-Workshop/5.1-Workshop-overview/system_architecture.png)
-
----
-
-## 3. Quy trình hoạt động của hệ thống
-
-Luồng xử lý chính của hệ thống diễn ra theo các bước sau:
-
-1. Người dùng truy cập website thông qua tên miền được quản lý bởi **Amazon Route 53**.
-
-2. **AWS Certificate Manager (ACM)** cung cấp chứng chỉ SSL/TLS để mã hóa toàn bộ kết nối HTTPS.
-
-3. Mọi yêu cầu từ người dùng được chuyển đến **Application Load Balancer (ALB)**.
-
-4. ALB phân phối lưu lượng truy cập đến các container đang chạy trên **Amazon ECS Fargate**.
-
-5. Ứng dụng Node.js xử lý nghiệp vụ và giao tiếp với **MongoDB Atlas** để lưu trữ cũng như truy xuất dữ liệu.
-
-6. Hình ảnh sản phẩm được tải lên và lưu trữ trên **Amazon S3**.
-
-7. Các thông tin cấu hình nhạy cảm như chuỗi kết nối cơ sở dữ liệu được lấy từ **AWS Secrets Manager**.
-
-8. Nhật ký hoạt động (Logs) và các chỉ số hệ thống (Metrics) được gửi đến **Amazon CloudWatch** để phục vụ việc giám sát và xử lý sự cố.
-
-9. Khi mã nguồn được cập nhật lên GitHub, **AWS CodeBuild** sẽ tự động xây dựng Docker Image, đẩy Image lên **Amazon ECR** và triển khai phiên bản mới lên **Amazon ECS**.
-
----
-
-## 4. Các dịch vụ được sử dụng
-
-Workshop sử dụng các dịch vụ AWS sau:
-
-### Hạ tầng mạng
-
-- Amazon VPC
-- Public Subnet
-- Private Subnet
-- Internet Gateway
-- NAT Gateway
-- Security Groups
-
-### Dịch vụ tính toán
-
-- Amazon ECS Fargate
-- Application Load Balancer
-
-### Lưu trữ
-
-- Amazon S3
-- MongoDB Atlas
-
-### Container
-
-- Docker
-- Amazon Elastic Container Registry (Amazon ECR)
-
-### Bảo mật
-
-- AWS IAM
-- AWS Secrets Manager
-- AWS Certificate Manager (ACM)
-
-### Tên miền
-
-- Amazon Route 53
-
-### CI/CD
-
-- GitHub
-- AWS CodeBuild
-
-### Giám sát
-
-- Amazon CloudWatch
-
----
-
-## 5. Kết quả đạt được
-
-Sau khi hoàn thành workshop, bạn sẽ có thể:
-
-- Triển khai ứng dụng Node.js dưới dạng container trên Amazon ECS Fargate.
-- Xây dựng hạ tầng mạng bằng Amazon VPC.
-- Kết nối và sử dụng MongoDB Atlas làm cơ sở dữ liệu.
-- Lưu trữ hình ảnh sản phẩm trên Amazon S3.
-- Bảo vệ thông tin cấu hình bằng AWS Secrets Manager.
-- Cấu hình tên miền và HTTPS với Amazon Route 53 và AWS Certificate Manager.
-- Thiết lập quy trình CI/CD tự động bằng GitHub, AWS CodeBuild, Amazon ECR và Amazon ECS.
-- Giám sát hoạt động của ứng dụng thông qua Amazon CloudWatch.
-- Xóa toàn bộ tài nguyên AWS sau khi hoàn thành workshop để tránh phát sinh chi phí.
+API xử lý được CV PDF và DOCX; kiểm thử ghi nhận phản hồi 201 khi thành công, 401 khi API key thiếu/sai, 400 với định dạng không hỗ trợ, 413 với tệp trên 5 MB và 404 với mã CV không tồn tại. Chất lượng trích xuất mới được so sánh thủ công trên một tập CV mẫu nhỏ, chưa có đánh giá định lượng.

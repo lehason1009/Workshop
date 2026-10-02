@@ -1,100 +1,31 @@
 ---
-title : "Cấu hình Load Balancer"
+title : "Chuẩn bị EC2 và địa chỉ truy cập"
 date : 2026-01-01
 weight : 1
 chapter : false
 pre : " <b> 5.7.1. </b> "
 ---
 
-## Cấu hình Load Balancer
+## Cấu hình EC2
 
-Trong phần này, bạn sẽ cấu hình Application Load Balancer (ALB) cho ứng dụng Second-Hand Marketplace.
+Báo cáo triển khai CloudCV trên Amazon Linux 2023 với instance `t3.medium` và ổ EBS 20 GB. Tạo hoặc chọn key pair, gắn IAM Role có quyền S3/Bedrock, đặt instance trong public subnet và gắn Elastic IP để địa chỉ không đổi khi khởi động lại.
 
-Application Load Balancer tiếp nhận các yêu cầu HTTP từ người dùng và chuyển tiếp đến Amazon ECS thông qua Target Group.
+## Quy tắc Security Group
 
----
+| Cổng | Nguồn | Mục đích |
+| --- | --- | --- |
+| 22 | IP công khai của quản trị viên | SSH |
+| 8000 | Client kiểm thử | REST API |
 
-## Tạo Target Group
+Chỉ cho phép SSH từ IP quản trị. Cổng 8000 được dùng trong cấu hình báo cáo; giới hạn nguồn ở môi trường thực tế nếu có thể.
 
-Truy cập:
+## Kiểm tra trước khi cài đặt
 
-**AWS Console → EC2 → Target Groups → Create target group**
-
-Cấu hình Target Group theo các thông số sau.
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Target type | IP addresses |
-| Protocol | HTTP |
-| Port | 3000 |
-| VPC | production-vpc |
-| Target group name | production-target-group |
-
-Chọn **Next**, giữ nguyên cấu hình Health Check mặc định và tạo Target Group.
-
-![Create Target Group](/images/5-Workshop/5.7-Deploy-Application/create-target-group.png)
-
----
-
-## Tạo Application Load Balancer
-
-Truy cập:
-
-**AWS Console → EC2 → Load Balancers → Create Load Balancer**
-
-Chọn **Application Load Balancer** và cấu hình các thông số sau.
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Load Balancer name | production-alb |
-| Scheme | Internet-facing |
-| IP address type | IPv4 |
-| VPC | production-vpc |
-| Availability Zones | Public Subnets |
-
-Chọn Security Group dành cho Application Load Balancer và tiếp tục.
-
-![Create Load Balancer](/images/5-Workshop/5.7-Deploy-Application/create-load-balancer.png)
-
----
-
-## Cấu hình Listener
-
-Cấu hình Listener mặc định cho Application Load Balancer.
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Protocol | HTTP |
-| Port | 80 |
-| Default action | Forward to production-target-group |
-
-Kiểm tra lại cấu hình và chọn **Create Load Balancer**.
-
-![Configure Listener](/images/5-Workshop/5.7-Deploy-Application/configure-listener.png)
-
----
-
-## Kiểm tra Load Balancer
-
-Truy cập:
-
-**AWS Console → EC2 → Load Balancers**
-
-Mở Application Load Balancer và xác nhận:
-
-- Load Balancer có trạng thái **Active**.
-- Listener đã được cấu hình thành công.
-- Target Group đã được liên kết với Load Balancer.
-
-![Load Balancer Details](/images/5-Workshop/5.7-Deploy-Application/load-balancer-details.png)
-
----
+- Instance ở trạng thái running và có Elastic IP gắn đúng.
+- IAM Role được gắn qua instance profile.
+- Có thể SSH đến EC2 từ IP đã cho phép.
+- Security Group cho phép API trên cổng 8000.
 
 ## Kết quả mong đợi
 
-Sau khi hoàn thành phần này, bạn sẽ có:
-
-- Một Target Group được tạo.
-- Một Application Load Balancer được cấu hình.
-- Listener chuyển tiếp lưu lượng đến Target Group.
-- Load Balancer sẵn sàng tích hợp với Amazon ECS.
+EC2 có địa chỉ ổn định, quyền truy cập AWS qua IAM Role và kết nối mạng cần thiết để cài/chạy container.

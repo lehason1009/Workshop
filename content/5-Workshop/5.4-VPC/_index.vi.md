@@ -8,15 +8,13 @@ pre : " <b> 5.4. </b> "
 
 ### Mục tiêu
 
-Xây dựng hạ tầng mạng cần thiết để triển khai ứng dụng Second-Hand Marketplace một cách an toàn trên AWS.
+Mô tả cách EC2 của CloudCV kết nối Internet và cách Security Group giới hạn lưu lượng vào máy chủ.
 
 ---
 
 ## 1. Tổng quan
 
-Hạ tầng mạng là nền tảng của toàn bộ hệ thống trên đám mây. Trong chương này, bạn sẽ tạo Virtual Private Cloud (VPC) và cấu hình các thành phần mạng cần thiết để triển khai ứng dụng.
-
-Kiến trúc mạng bao gồm Public Subnet, Private Subnet, Internet Gateway, NAT Gateway, Route Table và Security Group. Các thành phần này giúp Application Load Balancer, Amazon ECS, các dịch vụ AWS và dịch vụ bên ngoài như MongoDB Atlas có thể giao tiếp an toàn với nhau.
+CloudCV chạy trên một EC2 instance trong public subnet để client có thể gọi API. Elastic IP giữ địa chỉ máy chủ ổn định; Security Group cho phép SSH từ IP quản trị và cổng 8000 cho API. Báo cáo không nêu CIDR, Region hay cấu hình NAT/ALB, vì vậy các trang con tập trung vào những lựa chọn đã được ghi nhận thay vì đưa ra thông số mạng giả định.
 
 ---
 
@@ -24,7 +22,7 @@ Kiến trúc mạng bao gồm Public Subnet, Private Subnet, Internet Gateway, N
 
 ## 3. Nội dung thực hành
 
-Thực hiện lần lượt các phần sau:
+Tham khảo các phần sau:
 
 - **5.4.1 Tạo VPC**
 - **5.4.2 Cấu hình mạng**
@@ -35,9 +33,6 @@ Thực hiện lần lượt các phần sau:
 
 Sau khi hoàn thành chương này, bạn sẽ có:
 
-- Một Virtual Private Cloud (VPC) được tạo thành công.
-- Public Subnet và Private Subnet được cấu hình.
-- Internet Gateway và NAT Gateway được thiết lập.
-- Route Table được cấu hình chính xác.
-- Security Group cho Application Load Balancer và Amazon ECS được thiết lập.
-- Hạ tầng mạng sẵn sàng cho việc triển khai ứng dụng.
+- Nắm được vai trò của VPC/public subnet trong đường truy cập đến EC2.
+- Hiểu Security Group cần giới hạn SSH và cho phép cổng API.
+- Ghi lại CIDR, Region và quy tắc thực tế của tài khoản trước khi triển khai.

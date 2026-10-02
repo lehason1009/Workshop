@@ -1,102 +1,25 @@
 ---
-title : "Configure AWS CodeBuild"
+title : "Manual Release Process"
 date : 2026-01-01
 weight : 1
 chapter : false
 pre : " <b> 5.9.1. </b> "
 ---
 
-## Configure AWS CodeBuild
+## Recorded Release Process
 
-In this section, you will configure AWS CodeBuild to automate the build process of the Second-Hand Marketplace application.
+1. Update and verify source code, then push the change to GitHub.
+2. Connect to EC2 over SSH.
+3. Obtain the source revision to deploy.
+4. Rebuild the Docker image using the project Dockerfile.
+5. Start the container with runtime configuration and check `/health`.
 
-AWS CodeBuild retrieves the application source code from GitHub, executes the build commands defined in the `buildspec.yml` file, builds the Docker image, and pushes the image to Amazon Elastic Container Registry (Amazon ECR).
+The container uses a restart policy so it returns with Docker. Keep the API key outside the repository; EC2's IAM role supplies S3/Bedrock access.
 
----
+## Limitations
 
-## Create a CodeBuild Project
-
-Navigate to:
-
-**AWS Console → AWS CodeBuild → Build projects → Create build project**
-
-Configure the project using the following settings.
-
-| Property | Value |
-|----------|-------|
-| Project name | wed-mbdc-build |
-| Source provider | GitHub |
-| Repository | Your GitHub repository |
-
-Choose **Next** to continue.
-
-![Create Project](/images/5-Workshop/5.9-CI-CD/create-project.png)
-
----
-
-## Configure the Build Environment
-
-Configure the build environment.
-
-| Property | Value |
-|----------|-------|
-| Environment image | Managed image |
-| Operating system | Ubuntu |
-| Runtime | Standard |
-| Privileged mode | Enabled |
-
-Enable **Privileged mode** to allow Docker image creation during the build process.
-
-![Build Environment](/images/5-Workshop/5.9-CI-CD/build-environment.png)
-
----
-
-## Configure the Build Specification
-
-The project uses a `buildspec.yml` file stored in the source repository.
-
-The build specification defines the commands required to:
-
-- Authenticate with Amazon ECR.
-- Build the Docker image.
-- Tag the Docker image.
-- Push the image to Amazon ECR.
-
-![Buildspec](/images/5-Workshop/5.9-CI-CD/buildspec.png)
-
----
-
-## Start a Build
-
-Open the created CodeBuild project and choose **Start build**.
-
-Wait until the build process finishes successfully.
-
-![Build History](/images/5-Workshop/5.9-CI-CD/build-history.png)
-
----
-
-## Verify the Build Result
-
-Navigate to:
-
-**AWS Console → CodeBuild → Build history**
-
-Verify that:
-
-- Build status is **Succeeded**.
-- All build phases completed successfully.
-- The Docker image has been pushed to Amazon ECR.
-
-![Build Success](/images/5-Workshop/5.9-CI-CD/build-success.png)
-
----
+These steps are manual. The report does not record a webhook, AWS CodeBuild, ECR, or automated rollback. Before changing the running version, retain the current image or record its commit so it can be restored if needed.
 
 ## Expected Result
 
-After completing this section, you will have:
-
-- An AWS CodeBuild project connected to GitHub.
-- A successful Docker image build.
-- The Docker image pushed to Amazon ECR.
-- An automated build workflow for the application.
+The source revision and deployed version can be traced, and the new container is healthy before the release is considered complete.

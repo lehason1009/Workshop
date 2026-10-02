@@ -6,176 +6,28 @@ chapter : false
 pre : " <b> 5.4.2. </b> "
 ---
 
-## Cấu hình mạng
+## Đường truy cập đến EC2
 
-Sau khi tạo Virtual Private Cloud (VPC), bước tiếp theo là cấu hình các thành phần mạng cần thiết cho ứng dụng.
+Trong cấu hình được mô tả ở báo cáo, EC2 nằm trong public subnet và dùng Elastic IP để client có thể tiếp cận API trên cổng `8000`. Route từ subnet ra Internet cần Internet Gateway. Không cần tạo private subnet, NAT Gateway hay ALB cho kiến trúc CloudCV đã triển khai.
 
-Trong phần này, bạn sẽ tạo các Public Subnet và Private Subnet, cấu hình Internet Gateway, NAT Gateway, Route Table và Security Group. Những thành phần này giúp ứng dụng giao tiếp an toàn giữa Internet, Application Load Balancer, Amazon ECS và các dịch vụ AWS khác.
+## Security Group
 
----
+Security Group gắn với EC2 có các quy tắc inbound sau:
 
-## Tạo Public Subnet và Private Subnet
+| Giao thức/cổng | Nguồn | Mục đích |
+| --- | --- | --- |
+| TCP 22 | Địa chỉ IP quản trị | SSH để cài đặt và vận hành máy |
+| TCP 8000 | Client cần gọi API | Truy cập FastAPI |
 
-Truy cập:
+Trong báo cáo, cổng 22 chỉ mở cho IP của người triển khai; cổng 8000 được mở để kiểm thử API. Với môi trường dùng thực tế, nên giới hạn nguồn truy cập API theo yêu cầu và đặt thêm lớp bảo vệ phù hợp. Không mở SSH cho `0.0.0.0/0`.
 
-**AWS Console → VPC → Subnets → Create subnet**
+## Kiểm tra kết nối
 
-Tạo bốn Subnet với cấu hình sau:
-
-| Name | Availability Zone | IPv4 CIDR |
-|------|-------------------|------------|
-| public-subnet-a | ap-southeast-1a | 10.0.1.0/24 |
-| public-subnet-b | ap-southeast-1b | 10.0.2.0/24 |
-| private-subnet-a | ap-southeast-1a | 10.0.3.0/24 |
-| private-subnet-b | ap-southeast-1b | 10.0.4.0/24 |
-
-Đối với hai Public Subnet, bật tùy chọn **Auto-assign public IPv4 address**.
-
-Sau khi tạo hoàn tất, kiểm tra danh sách Subnet để đảm bảo tất cả các Subnet đã được tạo thành công.
-
-![Subnets](/images/5-Workshop/5.4-Networking/subnets.png)
-
----
-
-## Cấu hình Internet Gateway
-
-Truy cập:
-
-**AWS Console → VPC → Internet Gateways → Create internet gateway**
-
-Cấu hình:
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Name | production-igw |
-
-Sau khi tạo:
-
-- Chọn **Attach to VPC**
-- Chọn **production-vpc**
-
-Kiểm tra trạng thái Internet Gateway là **Attached**.
-
-![Internet Gateway](/images/5-Workshop/5.4-Networking/internet-gateway.png)
-
----
-
-## Cấu hình NAT Gateway
-
-Truy cập:
-
-**AWS Console → VPC → NAT Gateways → Create NAT gateway**
-
-Cấu hình:
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Name | production-nat |
-| Subnet | public-subnet-a |
-| Connectivity type | Public |
-| Elastic IP | Allocate Elastic IP |
-
-Đợi NAT Gateway chuyển sang trạng thái **Available** trước khi tiếp tục.
-
-![NAT Gateway](/images/5-Workshop/5.4-Networking/nat-gateway.png)
-
----
-
-## Cấu hình Route Table
-
-Truy cập:
-
-**AWS Console → VPC → Route Tables**
-
-Tạo hai Route Table:
-
-| Route Table | Associated Subnets | Default Route |
-|-------------|--------------------|---------------|
-| public-rt | public-subnet-a, public-subnet-b | Internet Gateway |
-| private-rt | private-subnet-a, private-subnet-b | NAT Gateway |
-
-Cấu hình Route:
-
-### Public Route Table
-
-| Destination | Target |
-|-------------|--------|
-| 0.0.0.0/0 | Internet Gateway |
-
-### Private Route Table
-
-| Destination | Target |
-|-------------|--------|
-| 0.0.0.0/0 | NAT Gateway |
-
-Sau khi cấu hình, liên kết (Associate) đúng Route Table với các Subnet tương ứng.
-
-![Route Tables](/images/5-Workshop/5.4-Networking/route-tables.png)
-
----
-
-## Cấu hình Security Group
-
-Truy cập:
-
-**AWS Console → EC2 → Security Groups**
-
-Tạo hai Security Group.
-
-### Application Load Balancer Security Group
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Name | production-alb-sg |
-| VPC | production-vpc |
-
-Inbound Rules
-
-| Type | Port | Source |
-|------|------|---------|
-| HTTP | 80 | 0.0.0.0/0 |
-| HTTPS | 443 | 0.0.0.0/0 |
-
-Outbound Rules
-
-| Type | Destination |
-|------|-------------|
-| All Traffic | 0.0.0.0/0 |
-
----
-
-### Amazon ECS Security Group
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Name | production-ecs-sg |
-| VPC | production-vpc |
-
-Inbound Rules
-
-| Type | Port | Source |
-|------|------|---------|
-| Custom TCP | 3000 | production-alb-sg |
-
-Outbound Rules
-
-| Type | Destination |
-|------|-------------|
-| All Traffic | 0.0.0.0/0 |
-
-Sau khi hoàn tất, xác nhận cả hai Security Group đã được tạo thành công.
-
-![Security Groups](/images/5-Workshop/5.4-Networking/security-groups.png)
-
----
+- Xác nhận EC2 ở đúng VPC/public subnet và có Elastic IP được gắn.
+- Kiểm tra route ra Internet và trạng thái instance.
+- Từ máy client, gọi `http://<EC2_PUBLIC_IP>:8000/health`.
+- Nếu không kết nối được, kiểm tra Security Group, địa chỉ IP và trạng thái ứng dụng/container.
 
 ## Kết quả mong đợi
 
-Sau khi hoàn thành phần này, bạn sẽ có:
-
-- Hai Public Subnet và hai Private Subnet được tạo.
-- Internet Gateway được gắn vào VPC.
-- NAT Gateway hoạt động ở trạng thái Available.
-- Public Route Table và Private Route Table được cấu hình đúng.
-- Security Group cho Application Load Balancer và Amazon ECS được thiết lập đầy đủ.
-- Hạ tầng mạng sẵn sàng cho việc triển khai ứng dụng ở các chương tiếp theo.
+Máy chủ EC2 có thể được quản trị qua SSH từ IP cho phép và API có thể được gọi qua cổng 8000. Các CIDR và địa chỉ cụ thể cần lấy từ tài khoản đang triển khai.

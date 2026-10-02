@@ -8,56 +8,30 @@ pre : " <b> 5.5.2. </b> "
 
 ## Configure Amazon S3
 
-In this section, you will configure an Amazon S3 bucket to store product images for the Second-Hand Marketplace application.
-
-Instead of storing image files on the application server, Amazon S3 provides scalable and durable object storage that can be accessed by the application running on Amazon ECS.
+CloudCV uses Amazon S3 to store source CV files and JSON results. The bucket remains private; the application accesses it through the EC2 IAM role.
 
 ---
 
 ## Create an S3 Bucket
 
-Navigate to:
-
-**AWS Console → Amazon S3 → Buckets → Create bucket**
-
-Configure the bucket using the following settings.
+Create a bucket in a Region appropriate for EC2 and choose a globally unique name. Keep **Block Public Access** enabled; CV data must not be public.
 
 | Property | Value |
 |----------|-------|
 | Bucket name | *your-bucket-name* |
-| AWS Region | ap-southeast-1 |
+| AWS Region | Same Region intended for the application |
 | Object Ownership | ACLs disabled |
 | Block Public Access | Enabled |
 
 After reviewing the configuration, choose **Create bucket**.
 
-![Create Bucket](/images/5-Workshop/5.5-Application-Services/create-bucket.png)
+## Stored Data
 
----
+The API stores the uploaded CV and its analyzed JSON in the bucket. Each CV is referenced by its CV ID so list, read, and delete endpoints can operate on the corresponding objects. Exact key/prefix naming is defined by the project source.
 
-## Upload Product Images
+## Verify Access
 
-Open the bucket and choose **Upload**.
-
-Upload one or more product images that will be used by the application.
-
-After the upload is complete, verify that the objects appear in the bucket.
-
-![Upload Objects](/images/5-Workshop/5.5-Application-Services/upload-images.png)
-
----
-
-## Verify Bucket Content
-
-Navigate to:
-
-**Amazon S3 → Buckets → Your Bucket**
-
-Confirm that the uploaded images are available in the bucket.
-
-These images will be accessed by the application when displaying product information.
-
-![Bucket Objects](/images/5-Workshop/5.5-Application-Services/bucket-object.png)
+Attach an appropriate IAM role to EC2 and confirm that the application can write, read, list, and delete objects in the intended bucket. Do not grant public access or place static access keys on the server.
 
 ---
 
@@ -65,6 +39,5 @@ These images will be accessed by the application when displaying product informa
 
 After completing this section, you will have:
 
-- An Amazon S3 bucket created.
-- Product images uploaded successfully.
-- Image objects stored in Amazon S3 and ready to be accessed by the application.
+- A private bucket for source CVs and JSON results.
+- EC2 can access the intended bucket with its granted IAM permissions.

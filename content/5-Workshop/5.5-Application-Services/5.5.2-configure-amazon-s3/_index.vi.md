@@ -8,56 +8,30 @@ pre : " <b> 5.5.2. </b> "
 
 ## Cấu hình Amazon S3
 
-Trong phần này, bạn sẽ cấu hình một Amazon S3 Bucket để lưu trữ hình ảnh sản phẩm cho ứng dụng Second-Hand Marketplace.
-
-Thay vì lưu ảnh trực tiếp trên máy chủ ứng dụng, Amazon S3 cung cấp dịch vụ lưu trữ đối tượng có khả năng mở rộng và độ bền cao, giúp ứng dụng chạy trên Amazon ECS truy cập hình ảnh một cách hiệu quả.
+CloudCV dùng Amazon S3 để lưu tệp CV gốc và kết quả JSON. Bucket được giữ riêng tư; ứng dụng truy cập bằng IAM Role của EC2.
 
 ---
 
 ## Tạo S3 Bucket
 
-Truy cập:
-
-**AWS Console → Amazon S3 → Buckets → Create bucket**
-
-Cấu hình Bucket theo các thông số sau.
+Tạo bucket trong Region phù hợp với EC2 và đặt tên duy nhất toàn cục. Giữ **Block Public Access** bật và không bật quyền public cho dữ liệu CV.
 
 | Thuộc tính | Giá trị |
 |------------|----------|
 | Bucket name | *your-bucket-name* |
-| AWS Region | ap-southeast-1 |
+| AWS Region | Cùng Region dự kiến dùng cho ứng dụng |
 | Object Ownership | ACLs disabled |
 | Block Public Access | Enabled |
 
 Kiểm tra lại cấu hình và chọn **Create bucket**.
 
-![Create Bucket](/images/5-Workshop/5.5-Application-Services/create-bucket.png)
+## Dữ liệu được lưu
 
----
+API lưu bản CV tải lên và JSON đã phân tích vào bucket. Mỗi CV được tham chiếu bằng mã CV để các endpoint liệt kê, đọc và xóa có thể thao tác với dữ liệu tương ứng. Tên key/prefix cụ thể phụ thuộc mã nguồn dự án.
 
-## Tải lên hình ảnh sản phẩm
+## Kiểm tra truy cập
 
-Mở Bucket và chọn **Upload**.
-
-Tải lên một hoặc nhiều hình ảnh sản phẩm sẽ được sử dụng trong ứng dụng.
-
-Sau khi tải lên thành công, kiểm tra các đối tượng đã xuất hiện trong Bucket.
-
-![Upload Objects](/images/5-Workshop/5.5-Application-Services/upload-images.png)
-
----
-
-## Kiểm tra nội dung Bucket
-
-Truy cập:
-
-**Amazon S3 → Buckets → Bucket của bạn**
-
-Xác nhận các hình ảnh đã được lưu trong Bucket.
-
-Các hình ảnh này sẽ được ứng dụng sử dụng khi hiển thị thông tin sản phẩm.
-
-![Bucket Objects](/images/5-Workshop/5.5-Application-Services/bucket-object.png)
+Gắn IAM Role phù hợp cho EC2 và xác nhận ứng dụng có thể ghi, đọc, liệt kê và xóa object trong đúng bucket. Không cấp quyền public; không đặt access key tĩnh trên máy chủ.
 
 ---
 
@@ -65,6 +39,5 @@ Các hình ảnh này sẽ được ứng dụng sử dụng khi hiển thị th
 
 Sau khi hoàn thành phần này, bạn sẽ có:
 
-- Một Amazon S3 Bucket được tạo.
-- Hình ảnh sản phẩm được tải lên thành công.
-- Các đối tượng được lưu trong Amazon S3 và sẵn sàng để ứng dụng sử dụng.
+- Bucket riêng tư dùng cho CV gốc và kết quả JSON.
+- EC2 truy cập được đúng bucket theo quyền IAM được cấp.

@@ -1,5 +1,5 @@
 ---
-title : "Monitoring"
+title : "Logs and Cost Controls"
 date : 2026-01-01
 weight : 10
 chapter : false
@@ -8,15 +8,13 @@ pre : " <b> 5.10. </b> "
 
 ### Goal
 
-Monitor the deployed application using Amazon CloudWatch.
+Inspect container logs and configure AWS cost alerts for CloudCV.
 
 ---
 
 ## 1. Overview
 
-In this chapter, you will use Amazon CloudWatch to monitor the health and performance of the deployed application.
-
-Amazon CloudWatch collects logs and metrics from Amazon ECS, allowing you to observe application behavior, troubleshoot issues, and verify that the service is running correctly.
+During operation, use Docker logs on EC2 to inspect startup output and application errors. AWS Budgets sends alerts when the account incurs costs. The report includes CloudWatch training but does not record CloudWatch Logs or alarms configured for CloudCV.
 
 ---
 
@@ -24,7 +22,7 @@ Amazon CloudWatch collects logs and metrics from Amazon ECS, allowing you to obs
 
 Complete the following section:
 
-- **5.10.1 Configure Amazon CloudWatch**
+- **5.10.1 Inspect Docker Logs and AWS Budgets**
 
 ---
 
@@ -32,6 +30,6 @@ Complete the following section:
 
 After completing this chapter, you will have:
 
-- Amazon CloudWatch connected to Amazon ECS.
-- Application logs available in CloudWatch.
-- Basic monitoring for the deployed application.
+- Container logs can be inspected directly on EC2.
+- AWS Budgets is used for cost alerts.
+- The previous ECS/CloudWatch setup is not confused with the current EC2 architecture.

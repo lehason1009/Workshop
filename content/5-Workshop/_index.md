@@ -6,27 +6,27 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Deploying the Second-Hand Marketplace on AWS
+# CloudCV: A CV Analysis API on AWS
 
 #### Overview
 
-In this workshop, we will build and deploy the **Second-Hand Marketplace** using a cloud-native architecture on AWS.
+This section documents the development and deployment of **CloudCV**, a backend REST API that accepts CVs in PDF or DOCX format, extracts their content, and returns structured JSON.
 
-The solution leverages AWS managed services including **Amazon ECS Fargate**, **Amazon ECR**, **Amazon S3**, **AWS CodeBuild**, **Application Load Balancer**, **Amazon CloudWatch**, **Amazon Route 53**, and **AWS Certificate Manager (ACM)**, integrated with **MongoDB Atlas** to provide a scalable, secure, highly available, and automated deployment platform.
+The application uses **FastAPI**, **Docling** to convert documents to Markdown, and a language model on **Amazon Bedrock** for information extraction. A Docker container runs on **Amazon EC2**, while **Amazon S3** stores source CVs and JSON results. The EC2 instance uses a least-privilege IAM role to access the bucket and invoke the model. **AWS Budgets** provides cost alerts.
 
-Throughout this workshop, you will prepare the project environment, configure networking, containerize the application using Docker, deploy it to Amazon ECS Fargate, configure a custom domain with HTTPS, automate deployment using AWS CodeBuild, monitor system health, perform end-to-end testing, and finally clean up all AWS resources.
+The pages cover project setup, API and data-schema design, S3/IAM/Bedrock integration, Docker packaging, manual deployment to EC2, and API testing. The report does not implement ECS, ECR, a custom domain/HTTPS, or a CI/CD pipeline; pages retained for those legacy sections are reframed to describe the actual scope rather than imply those components were deployed.
 
 #### Content
 
-1. [Workshop Overview](5.1-Workshop-overview/)
-2. [Prerequisite](5.2-Prerequisite/)
-3. [Project Foundation](5.3-Project-foundation/)
-4. [Networking](5.4-Networking/)
-5. [Application Services](5.5-Application-Services/)
+1. [CloudCV Overview](5.1-Workshop-overview/)
+2. [Prerequisite](5.2-Prerequiste/)
+3. [Project Foundation and API](5.3-Project-foundation/)
+4. [EC2 and Networking](5.4-VPC/)
+5. [S3, Bedrock, and IAM](5.5-Application-Services/)
 6. [Containerization](5.6-Containerization/)
-7. [Deploy Application](5.7-Deploy-Application/)
-8. [Domain and HTTPS](5.8-Domain-and-HTTPS/)
-9. [CI/CD](5.9-CICD/)
-10. [Monitoring](5.10-Monitoring/)
-11. [Testing](5.11-Testing/)
+7. [Deploy to EC2](5.7-Deploy-Application/)
+8. [API Security and Configuration](5.8-Domain-and-HTTPS/)
+9. [Source Control and Release Process](5.9-CI-CD/)
+10. [Logs and Cost Controls](5.10-Monitoring/)
+11. [API Testing](5.11-Testing/)
 12. [Cleanup](5.12-Cleanup/)

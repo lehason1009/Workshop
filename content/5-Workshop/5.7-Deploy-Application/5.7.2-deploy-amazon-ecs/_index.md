@@ -1,122 +1,34 @@
 ---
-title : "Deploy Application to Amazon ECS"
+title : "Build and Run CloudCV"
 date : 2026-01-01
 weight : 2
 chapter : false
 pre : " <b> 5.7.2. </b> "
 ---
 
-## Deploy Application to Amazon ECS
+## Install Docker and Get the Source
 
-In this section, you will deploy the Second-Hand Marketplace application to Amazon ECS using AWS Fargate.
+Connect to EC2 over SSH, install Docker on Amazon Linux 2023, and clone the CloudCV repository from GitHub. Build the image using the project's Dockerfile:
 
-The deployment process includes creating a task definition, configuring an ECS service, and associating the service with the existing Application Load Balancer.
+```bash
+docker build -t cloudcv .
+```
 
----
+## Start the API
 
-## Create a Task Definition
+Pass the API key and bucket name through environment variables, then run the container with a restart policy. Variable names must match the source; do not place secrets in the Dockerfile or Git. EC2 obtains S3/Bedrock permissions from its IAM role.
 
-Navigate to:
-
-**AWS Console → Amazon ECS → Task definitions → Create new task definition**
-
-Configure the task definition using the following settings.
-
-| Property | Value |
-|----------|-------|
-| Launch type | AWS Fargate |
-| Task definition family | production-task |
-| Operating system | Linux |
-| CPU | 1 vCPU |
-| Memory | 2 GB |
-
-Choose **Next** to configure the container.
-
-![Task Definition](/images/5-Workshop/5.7-Deploy-Application/task-definition.png)
-
----
-
-## Configure the Container
-
-Configure the container using the Docker image stored in Amazon ECR.
-
-| Property | Value |
-|----------|-------|
-| Container name | wed-mbdc |
-| Image URI | Amazon ECR Image |
-| Container port | 3000 |
-
-Configure the required environment variables and secrets, then create the task definition.
-
-![Container Configuration](/images/5-Workshop/5.7-Deploy-Application/container-configuration.png)
-
----
-
-## Create an ECS Service
-
-Navigate to:
-
-**Amazon ECS → Clusters → production-cluster → Create**
-
-Configure the service using the following settings.
-
-| Property | Value |
-|----------|-------|
-| Launch type | AWS Fargate |
-| Task definition | production-task |
-| Service name | production-service |
-| Desired tasks | 1 |
-
-Continue to the networking configuration.
-
-![Create Service](/images/5-Workshop/5.7-Deploy-Application/create-service.png)
-
----
-
-## Configure Networking
-
-Configure the ECS service networking.
-
-| Property | Value |
-|----------|-------|
-| VPC | production-vpc |
-| Subnets | Private Subnets |
-| Security Group | production-ecs-sg |
-| Public IP | Disabled |
-
-For the Load Balancer section:
-
-- Select **Use existing load balancer**.
-- Choose the Application Load Balancer created in the previous section.
-- Select the existing Target Group.
-
-Review the configuration and choose **Create**.
-
-![Networking Configuration](/images/5-Workshop/5.7-Deploy-Application/networking.png)
-
----
+```bash
+docker run -d --restart unless-stopped --name cloudcv -p 8000:8000 --env-file <runtime-env-file> cloudcv
+```
 
 ## Verify the Deployment
 
-Navigate to:
-
-**Amazon ECS → Clusters → production-cluster → Services**
-
-Verify that:
-
-- Service status is **Active**.
-- Running tasks equal the desired tasks.
-- The task status is **Running**.
-
-![Service Running](/images/5-Workshop/5.7-Deploy-Application/service-running.png)
-
----
+- Check container state with `docker ps`.
+- Read application output with `docker logs cloudcv`.
+- Request `http://<EC2_PUBLIC_IP>:8000/health` from a client.
+- Open Swagger UI at `/docs` to inspect the endpoints.
 
 ## Expected Result
 
-After completing this section, you will have:
-
-- A Task Definition created.
-- An ECS Service deployed successfully.
-- The application running on AWS Fargate.
-- Amazon ECS integrated with the existing Application Load Balancer.
+The container restarts after EC2 reboots; the API responds on port 8000 and can access S3/Bedrock through the IAM role.

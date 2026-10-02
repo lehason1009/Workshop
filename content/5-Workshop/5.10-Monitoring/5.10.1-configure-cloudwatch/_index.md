@@ -1,92 +1,32 @@
 ---
-title : "Configure Amazon CloudWatch"
+title : "Inspect Docker Logs and AWS Budgets"
 date : 2026-01-01
 weight : 1
 chapter : false
 pre : " <b> 5.10.1. </b> "
 ---
 
-# Configure Amazon CloudWatch
+# Inspect Docker Logs and AWS Budgets
 
-In this section, you will configure Amazon CloudWatch to monitor the deployed application running on Amazon ECS.
+## Application Logs
 
-Amazon CloudWatch provides monitoring capabilities by collecting metrics from AWS resources and evaluating them against user-defined thresholds. This enables administrators to detect abnormal resource usage, observe application performance, and respond quickly when issues occur.
+CloudCV runs in a container on EC2. Use these commands to inspect its state and troubleshoot:
 
-In this project, CloudWatch is used to monitor the CPU utilization of the ECS Service by creating a CloudWatch Alarm.
-
----
-
-## Configure CloudWatch Logging
-
-Amazon ECS supports integration with Amazon CloudWatch through the **awslogs** log driver. The Task Definition specifies the CloudWatch Log Group, AWS Region, and Stream Prefix that are used when the container sends runtime logs to CloudWatch.
-
-The following configuration is defined inside the ECS Task Definition.
-
-```json
-"logConfiguration": {
-  "logDriver": "awslogs",
-  "options": {
-    "awslogs-group": "/ecs/wed-mbdc-task",
-    "awslogs-create-group": "true",
-    "awslogs-region": "ap-southeast-1",
-    "awslogs-stream-prefix": "ecs"
-  }
-}
+```bash
+docker ps
+docker logs --tail 100 cloudcv
 ```
 
-![CloudWatch Logging Configuration](/images/5-Workshop/5.10-Monitoring/ecs-log-configuration.png)
+Do not write API keys, full CVs, or personal data to logs. The report does not record log forwarding to CloudWatch; centralized logging requires additional configuration and access controls.
 
----
+## Cost Alerts
 
-## Create a CloudWatch Alarm
+AWS Budgets is configured to send email alerts when charges occur. Check the budget and Billing regularly; a budget alerts but does not stop resources automatically. Stop EC2 when unused to reduce compute charges, but note that EBS and Elastic IP may still incur costs.
 
-To continuously monitor the health of the application, a CloudWatch Alarm is configured for the Amazon ECS Service.
+## CloudWatch Scope
 
-The alarm evaluates the average CPU utilization every five minutes. If the CPU usage exceeds the configured threshold, CloudWatch changes the alarm state from **OK** to **ALARM**, allowing administrators to identify abnormal resource consumption and investigate potential performance issues.
-
-The CloudWatch Alarm is configured using the following settings.
-
-| Property | Value |
-|----------|-------|
-| Alarm name | production-service-cpu-alarm |
-| Namespace | AWS/ECS |
-| Metric | CPUUtilization |
-| Threshold | 80% |
-| Evaluation period | 5 minutes |
-| Cluster | production-cluster |
-| Service | production-service |
-
-![CloudWatch Alarm List](/images/5-Workshop/5.10-Monitoring/cpu-alarm-list.png)
-
----
-
-## Verify the Alarm Status
-
-After the alarm is created, Amazon CloudWatch continuously monitors the CPU utilization of the ECS Service.
-
-The alarm remains in the **OK** state while CPU usage stays below the configured threshold. If the CPU utilization exceeds 80% during the evaluation period, CloudWatch automatically changes the alarm state to **ALARM**.
-
-The alarm detail page also displays additional monitoring information, including:
-
-- Current alarm state.
-- CPU utilization graph.
-- Threshold configuration.
-- Evaluation period.
-- Cluster name.
-- ECS Service name.
-- Namespace and monitored metric.
-
-This information helps administrators understand the current operating condition of the deployed application and quickly identify potential performance bottlenecks.
-
-![CloudWatch Alarm Details](/images/5-Workshop/5.10-Monitoring/cpu-alarm-details.png)
-
----
+CloudWatch was covered in the training program, but the report does not describe a CloudWatch log group or alarm for CloudCV. Do not assume the legacy ECS/CPU-alarm configuration applies.
 
 ## Expected Result
 
-After completing this section, you will have:
-
-- Amazon ECS configured to use the **awslogs** log driver.
-- A CloudWatch Alarm monitoring CPU utilization for the ECS Service.
-- Real-time visibility into the health of the deployed application.
-- A monitoring mechanism that helps detect abnormal CPU usage and supports application maintenance.
+You can inspect container logs and receive cost alerts, and understand that centralized CloudWatch monitoring needs separate configuration.

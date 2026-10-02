@@ -8,37 +8,13 @@ pre : " <b> 5.6.1. </b> "
 
 ## Build Docker Image
 
-In this section, you will create a Dockerfile and build a Docker image for the Second-Hand Marketplace application.
-
-Docker packages the application and its dependencies into a portable container, ensuring a consistent runtime environment across development and production.
+CloudCV is packaged in an image based on Python 3.12. Docling requires document-processing libraries and layout models, so the image installs CPU-only PyTorch and preloads the required models.
 
 ---
 
 ## Create the Dockerfile
 
-Open the project folder and create a file named **Dockerfile** in the root directory.
-
-The Dockerfile used in this project is shown below.
-
-```dockerfile
-FROM node:20-alpine
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
-```
-
-Save the Dockerfile after completing the configuration.
-
-![Dockerfile](/images/5-Workshop/5.6-Containerization/dockerfile.png)
+The project Dockerfile installs Python dependencies, copies the source, and prepares the Docling models in the image. The report does not include the full Dockerfile, so use the version in the source repository rather than copying an unrelated example.
 
 ---
 
@@ -49,22 +25,21 @@ After creating the Dockerfile, open a terminal in the project root directory and
 Run the following command.
 
 ```bash
-docker build -t secondhand-marketplace .
+docker build -t cloudcv .
 ```
 
 Docker performs the following operations during the build process:
 
-1. Downloads the required Node.js base image if it is not available locally.
-2. Creates the application working directory inside the container.
-3. Copies the project files into the container.
-4. Installs all application dependencies using **npm install**.
-5. Packages the application into a Docker image.
+1. Downloads a Python 3.12 base image if needed.
+2. Installs the API and Docling dependencies, including CPU-only PyTorch.
+3. Copies the source and preloads the layout-analysis models.
+4. Packages the service as a Docker image.
 
 When the build completes successfully, Docker displays a message similar to the following.
 
 ```text
 Successfully built <IMAGE_ID>
-Successfully tagged secondhand-marketplace:latest
+Successfully tagged cloudcv:latest
 ```
 
 To verify that the image was created successfully, run:
@@ -81,6 +56,5 @@ The command displays all Docker images stored on the local machine. Confirm that
 
 After completing this section, you will have:
 
-- A Dockerfile created for the application.
-- A Docker image built successfully.
-- A local Docker image ready to be pushed to Amazon ECR.
+- The `cloudcv:latest` image builds successfully.
+- The container can start without downloading Docling models on first launch.

@@ -8,49 +8,46 @@ pre : " <b> 5.2. </b> "
 
 ### Goal
 
-Ensure readers have access to the AWS Management Console, prepare the required local development tools, and clone the project source code before starting the deployment.
+Prepare an AWS account, a Python/Docker development environment, and an API client before working with CloudCV.
 
 ---
 
 ## 1. Tools to Prepare
 
-This workshop uses the **AWS Management Console (Web UI)** to create and manage AWS resources. No AWS CLI or Infrastructure as Code (IaC) tools are required.
+The report's resources are managed in AWS. Use an account allowed to create EC2, S3, and IAM resources and access Amazon Bedrock; model invocation must be enabled before integration testing.
 
 Please prepare the following software:
 
-- **Node.js (v18+)**: Required for running the application locally.
-- **Git**: Source control management.
-- **Docker Desktop**: Required for building Docker images.
-- **Visual Studio Code (or any preferred IDE)**: For editing the project source code.
+- **Python 3.12** and a Python package environment.
+- **Docker** to build and run the container.
+- **Git** to obtain source code and track changes.
+- **Postman** or **curl** for REST API requests; a browser can access Swagger UI.
+- A sample PDF or DOCX CV within the API's 5 MB limit.
 
 ---
 
 ## 2. Steps
 
-**Log in to AWS Console:** Sign in to the AWS Management Console using your AWS account and ensure the Region is set to **ap-southeast-1 (Singapore)**.
+**Log in to AWS Console:** Select a Region where your account can use Amazon Bedrock and confirm that the intended model is available there.
 
-**Checkpoint:** Confirm that the console is using **ap-southeast-1** before creating any resources.
+**Checkpoint:** Record the Region used for EC2 and Bedrock; configure both consistently.
 
-**Verify Local Tools:** Make sure the required software is installed successfully.
+**Verify Local Tools:** Confirm that Python, Git, and Docker are available.
 
 ```bash
-node --version
-npm --version
+python --version
 git --version
 docker --version
 ```
 
 **Checkpoint:** All commands should return valid version numbers.
 
-**Clone the Project:** Clone the project source code from GitHub and open it using Visual Studio Code.
-
-**Checkpoint:** The project can be opened successfully and is ready for deployment.
+**Prepare AWS access:** Create an AWS budget for cost alerts and request access to the Bedrock model before running the API.
 
 ---
 
 ## 3. Expected Result
 
-- Successfully access the AWS Management Console.
-- Prepare the local development environment.
-- Clone the project source code successfully.
-- Complete all prerequisites before proceeding to the next chapter.
+- Python 3.12, Docker, and Git are available.
+- The account can create required resources and invoke the Bedrock model.
+- An API client and sample CV are ready for testing.

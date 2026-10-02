@@ -1,76 +1,28 @@
 ---
-title : "Cấu hình AWS Secrets Manager"
+title : "IAM Role cho EC2"
 date : 2026-01-01
 weight : 3
 chapter : false
 pre : " <b> 5.5.3. </b> "
 ---
 
-## Cấu hình AWS Secrets Manager
+## IAM Role cho EC2
 
-Trong phần này, bạn sẽ cấu hình AWS Secrets Manager để lưu trữ an toàn các thông tin nhạy cảm của ứng dụng Second-Hand Marketplace.
+CloudCV không dùng access key dài hạn trên máy chủ. Gắn IAM Role vào EC2 để ứng dụng nhận thông tin xác thực tạm thời và gọi dịch vụ AWS theo quyền được cấp.
 
-Thay vì lưu trực tiếp các thông tin này trong mã nguồn, AWS Secrets Manager giúp quản lý và bảo vệ chúng một cách tập trung và an toàn.
+## Quyền cần thiết
 
----
+| Tài nguyên | Quyền trong báo cáo |
+| --- | --- |
+| Bucket S3 của dự án | Liệt kê bucket; đọc, ghi và xóa object trong đúng bucket |
+| Amazon Bedrock | Gọi đúng mô hình dùng cho trích xuất |
 
-## Tạo Secret
+Giới hạn policy vào ARN bucket/object và model cần thiết; tránh quyền `*` nếu không bắt buộc. Không đưa access key vào image Docker, Git hoặc biến môi trường lâu dài.
 
-Truy cập:
+## Gắn và kiểm tra Role
 
-**AWS Console → AWS Secrets Manager → Secrets → Store a new secret**
-
-Chọn **Other type of secret**.
-
-Cấu hình Secret theo các thông tin sau.
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Secret type | Other type of secret |
-| Key | MONGODB_URI |
-| Value | Chuỗi kết nối MongoDB Atlas |
-
-Chọn **Next** để tiếp tục.
-
-![Create Secret](/images/5-Workshop/5.5-Application-Services/create-secret.png)
-
----
-
-## Cấu hình thông tin Secret
-
-Đặt tên cho Secret.
-
-Ví dụ:
-
-| Thuộc tính | Giá trị |
-|------------|----------|
-| Secret name | production/mongodb |
-| Description | MongoDB connection string |
-
-Chọn **Next** và giữ nguyên các thiết lập mặc định.
-
-![Secret Details](/images/5-Workshop/5.5-Application-Services/secret-details.png)
-
----
-
-## Kiểm tra Secret
-
-Truy cập:
-
-**AWS Console → Secrets Manager → Secrets**
-
-Xác nhận Secret vừa tạo xuất hiện trong danh sách.
-
-Ứng dụng sẽ sử dụng Secret này khi được triển khai trên Amazon ECS.
-
-![Secret List](/images/5-Workshop/5.5-Application-Services/secret-list.png)
-
----
+Gắn role vào instance profile của EC2, sau đó kiểm tra từ ứng dụng rằng có thể ghi/đọc một object thử trong bucket và gọi model. Nếu gặp lỗi AccessDenied, đối chiếu policy, bucket ARN, model ID và Region.
 
 ## Kết quả mong đợi
 
-Sau khi hoàn thành phần này, bạn sẽ có:
-
-- Một Secret được tạo trong AWS Secrets Manager.
-- Chuỗi kết nối MongoDB Atlas được lưu trữ an toàn.
-- Secret sẵn sàng để Amazon ECS sử dụng.
+EC2 dùng credentials tạm thời từ IAM Role với quyền cần thiết cho S3 và Bedrock, không cần AWS access key tĩnh.

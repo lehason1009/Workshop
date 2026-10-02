@@ -8,15 +8,13 @@ pre : " <b> 5.4. </b> "
 
 ### Goal
 
-Build the networking infrastructure required to deploy the Second-Hand Marketplace application securely on AWS.
+Describe how CloudCV's EC2 instance reaches the internet and how its security group controls inbound traffic.
 
 ---
 
 ## 1. Overview
 
-Networking is the foundation of the cloud infrastructure. In this chapter, you will create a Virtual Private Cloud (VPC) and configure the networking components required to support the application deployment.
-
-The network architecture includes public and private subnets, an Internet Gateway, a NAT Gateway, route tables, and security groups. These components provide secure communication between the Application Load Balancer, Amazon ECS, AWS services, and external resources such as MongoDB Atlas.
+CloudCV runs on an EC2 instance in a public subnet so clients can reach the API. An Elastic IP keeps the instance address stable; its security group allows SSH from the administrator's IP and API traffic on port 8000. The report does not specify a CIDR, Region, NAT, or ALB configuration, so the following pages focus on documented choices rather than invented network values.
 
 ---
 
@@ -24,7 +22,7 @@ The network architecture includes public and private subnets, an Internet Gatewa
 
 ## 2. Detailed Practice Content
 
-Complete the following sections in order:
+Refer to these sections:
 
 - **5.4.1 Create VPC**
 - **5.4.2 Configure Network**
@@ -35,9 +33,6 @@ Complete the following sections in order:
 
 After completing this chapter, you will have:
 
-- A Virtual Private Cloud (VPC) created.
-- Public and private subnets configured.
-- Internet Gateway and NAT Gateway configured.
-- Route tables configured correctly.
-- Security Groups configured for the Application Load Balancer and Amazon ECS.
-- A networking environment ready for application deployment.
+- Understand the VPC/public-subnet role in reaching the EC2 instance.
+- Understand why SSH access and API traffic need distinct security-group rules.
+- Record the actual CIDR, Region, and account-specific rules before deployment.

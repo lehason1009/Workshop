@@ -8,17 +8,13 @@ pre : " <b> 5.5. </b> "
 
 ### Goal
 
-Configure the core application services required for the Second-Hand Marketplace application.
+Configure the three AWS services central to CloudCV: Bedrock, S3, and IAM.
 
 ---
 
 ## 1. Overview
 
-In this chapter, you will configure the core services that support the application running on Amazon ECS.
-
-The application uses MongoDB Atlas as the database, Amazon S3 to store product images, and AWS Secrets Manager to securely manage sensitive information such as database connection strings and application secrets.
-
-After completing this chapter, the application will be ready to access external services securely and reliably.
+CloudCV uses Amazon Bedrock to extract CV data, Amazon S3 to store source CVs and JSON results, and an IAM role attached to EC2 for access to Bedrock and the bucket. The report does not use MongoDB Atlas or AWS Secrets Manager.
 
 ---
 
@@ -26,9 +22,9 @@ After completing this chapter, the application will be ready to access external 
 
 Complete the following sections in order:
 
-- **5.5.1 Configure MongoDB Atlas**
+- **5.5.1 Integrate Amazon Bedrock**
 - **5.5.2 Configure Amazon S3**
-- **5.5.3 Configure AWS Secrets Manager**
+- **5.5.3 IAM Role for EC2**
 
 ---
 
@@ -36,7 +32,6 @@ Complete the following sections in order:
 
 After completing this chapter, you will have:
 
-- MongoDB Atlas configured for application data.
-- Amazon S3 configured for storing product images.
-- AWS Secrets Manager configured for secure secret management.
-- All application services ready for deployment on Amazon ECS.
+- Understand Bedrock, S3, and IAM roles in the request flow.
+- EC2 permissions are scoped to the required bucket and model.
+- Source files and results are stored in a private bucket.

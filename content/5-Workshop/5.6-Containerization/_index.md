@@ -8,15 +8,13 @@ pre : " <b> 5.6. </b> "
 
 ### Goal
 
-Containerize the Second-Hand Marketplace application and prepare the container image for deployment on Amazon ECS.
+Package the FastAPI application, Docling, and its dependencies into a Docker image for EC2.
 
 ---
 
 ## 1. Overview
 
-In this chapter, you will package the Node.js application into a Docker container and upload the container image to Amazon Elastic Container Registry (Amazon ECR).
-
-Docker provides a consistent runtime environment, while Amazon ECR securely stores container images that will later be deployed to Amazon ECS.
+CloudCV uses Python 3.12. The image installs Docling with a CPU-only PyTorch build and preloads the layout-analysis models Docling needs. The report deploys the image directly on EC2 and does not use Amazon ECR.
 
 ---
 
@@ -24,9 +22,8 @@ Docker provides a consistent runtime environment, while Amazon ECR securely stor
 
 Complete the following sections in order:
 
-- **5.6.1 Create Dockerfile**
-- **5.6.2 Build Docker Image**
-- **5.6.3 Push Image to Amazon ECR**
+- **5.6.1 Build Docker Image**
+- **5.6.2 Prepare the EC2 Container Runtime**
 
 ---
 
@@ -34,7 +31,6 @@ Complete the following sections in order:
 
 After completing this chapter, you will have:
 
-- A Dockerfile for the application.
-- A Docker image built successfully.
-- A container image stored in Amazon ECR.
-- A container image ready for deployment on Amazon ECS.
+- A Docker image containing the API and document-processing dependencies.
+- Docling models available when the container starts.
+- Runtime settings ready for direct deployment on EC2.

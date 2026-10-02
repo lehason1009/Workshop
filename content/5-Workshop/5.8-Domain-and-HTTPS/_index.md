@@ -1,5 +1,5 @@
 ---
-title : "Domain and HTTPS"
+title : "API Security and Configuration"
 date : 2026-01-01
 weight : 8
 chapter : false
@@ -8,17 +8,13 @@ pre : " <b> 5.8. </b> "
 
 ### Goal
 
-Configure a custom domain and enable HTTPS access for the Second-Hand Marketplace application.
+Configure API authentication and pass CloudCV runtime settings safely.
 
 ---
 
 ## 1. Overview
 
-In this chapter, you will configure Amazon Route 53 and AWS Certificate Manager (ACM) to provide secure access to the application.
-
-Amazon Route 53 is used to manage the domain name, while AWS Certificate Manager issues an SSL/TLS certificate that enables HTTPS connections through the Application Load Balancer.
-
-After completing this chapter, users will be able to access the application using a custom domain over HTTPS.
+CloudCV authenticates endpoints with an `X-API-Key` header, except for `/health`. The API key and bucket name are passed to the container through environment variables. The report accesses the API through the EC2 address on port 8000; it does not record a domain, ACM certificate, or HTTPS setup.
 
 ---
 
@@ -26,7 +22,7 @@ After completing this chapter, users will be able to access the application usin
 
 Complete the following section:
 
-- **5.8.1 Configure Route 53 and AWS Certificate Manager**
+- **5.8.1 Authenticate Requests and Manage Configuration**
 
 ---
 
@@ -34,7 +30,6 @@ Complete the following section:
 
 After completing this chapter, you will have:
 
-- A custom domain configured in Amazon Route 53.
-- An SSL/TLS certificate issued by AWS Certificate Manager.
-- HTTPS enabled through the Application Load Balancer.
-- Secure access to the deployed application.
+- Requests with a missing/invalid API key are rejected with status 401.
+- Secrets are not hard-coded in source code or the Docker image.
+- The current scope is clear: the report does not deploy a domain or HTTPS.

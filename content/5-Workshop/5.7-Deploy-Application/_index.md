@@ -8,17 +8,13 @@ pre : " <b> 5.7. </b> "
 
 ### Goal
 
-Deploy the Second-Hand Marketplace application to Amazon ECS using AWS Fargate.
+Deploy the CloudCV container on an Amazon EC2 instance.
 
 ---
 
 ## 1. Overview
 
-In this chapter, you will deploy the containerized application to Amazon Elastic Container Service (Amazon ECS).
-
-Amazon ECS manages the application containers, while AWS Fargate provides a serverless compute environment without requiring you to provision or manage EC2 instances.
-
-The deployment includes creating an ECS cluster, configuring a task definition, creating an ECS service, and verifying that the application is running successfully.
+CloudCV runs in Docker on Amazon Linux 2023. The report uses a `t3.medium` instance, 20 GB EBS volume, and Elastic IP; these are the project's recorded settings, not universal requirements. EC2 has an IAM role for S3/Bedrock access.
 
 ---
 
@@ -26,8 +22,8 @@ The deployment includes creating an ECS cluster, configuring a task definition, 
 
 Complete the following sections in order:
 
-- **5.7.1-configure-load-balancer**
-- **5.7.2-deploy-amazon-ecs**
+- **5.7.1 Prepare EC2 and Public Access**
+- **5.7.2 Build and Run CloudCV**
 
 
 ---
@@ -36,7 +32,6 @@ Complete the following sections in order:
 
 After completing this chapter, you will have:
 
-- An Amazon ECS cluster created.
-- A task definition configured.
-- An ECS service running on AWS Fargate.
-- The application successfully deployed and ready to receive traffic.
+- EC2 runs the CloudCV container with a restart policy.
+- The `/health` endpoint responds through the Elastic IP on port 8000.
+- Data is stored in S3 and AWS permissions come from the IAM role.
