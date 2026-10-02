@@ -35,8 +35,8 @@ Sau khi tạo CV, dùng `GET /cvs` và `GET /cvs/{cvId}` để xác nhận kết
 
 Các trường hợp đã ghi nhận xác nhận luồng API cơ bản, xác thực, kiểm tra tệp và tính bền vững dữ liệu qua S3. Độ chính xác trích xuất cần được đánh giá thêm trên tập CV lớn hơn.
 
-## Demo chức năng Parse CV tại JobShare
+## Demo chức năng Parse CV
 
-Ngoài CloudCV, tôi tham gia phát triển chức năng **Parse CV** (`POST /v3/resume/cv`) trong hệ thống *Resume Parser AI System* của JobShare. Phạm vi của tôi chỉ là chức năng này; các nhóm chức năng khác của hệ thống (Matching, Vector, JD Builder, JD) không thuộc phần việc của tôi. Endpoint nhận một hoặc nhiều tệp (PDF, DOCX...), gộp lại để phân tích và trả về JSON có cấu trúc.
+Ngoài CloudCV, tôi tham gia phát triển chức năng **Parse CV** (`POST /v3/resume/cv`) trong một hệ thống trích xuất thông tin CV khác, tách biệt với CloudCV. Phạm vi của tôi chỉ là chức năng này; các nhóm chức năng khác của hệ thống (Matching, Vector, JD Builder, JD) không thuộc phần việc của tôi. Endpoint nhận một hoặc nhiều tệp (PDF, DOCX...), gộp lại để phân tích và trả về JSON có cấu trúc.
 
-![Gọi thử endpoint Parse CV trên Swagger UI (thông tin cá nhân đã được che)](/images/5-Workshop/demo-parse-cv-jobshare.png)
+![Gọi thử endpoint Parse CV trên Swagger UI (thông tin cá nhân đã được che)](/images/5-Workshop/demo-parse-cv.png)
