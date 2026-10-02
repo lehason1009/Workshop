@@ -1,33 +1,36 @@
 ---
 title: "Báo cáo thực tập"
-date: 2024-01-01
+date: 2026-09-27
 weight: 1
 chapter: false
 ---
 
-# Báo cáo thực tập
+# Báo cáo thực tập tốt nghiệp
+
+**Đề tài:** First Cloud AI Journey – Capstone Project CloudCV
+
 ### Thông tin sinh viên:
-&emsp; **Họ và tên:** Trần Hoàng Chiến
+&emsp; **Họ và tên:** Lê Hà Sơn
 
-&emsp; **Số điện thoại:** 0834972928
+&emsp; **MSSV:** 0219366
 
-&emsp; **Email:** vc24902@gmail.com
+&emsp; **Lớp:** 66CNCS (Khóa 66)
 
-&emsp; **Trường:** Đại học Công Nghệ TP.HCM
+&emsp; **Ngành:** Khoa học máy tính
 
-&emsp; **Ngành:** Công nghệ thông tin
+&emsp; **Trường:** Trường Đại học Xây dựng Hà Nội – Khoa Công nghệ Thông tin
 
-&emsp; **Lớp:** 22DTHC7
+&emsp; **Giảng viên hướng dẫn:** ThS. Lê Văn Minh
 
-&emsp; **Công ty thực tập:** Công ty TNHH Amazon Web Services Viet Nam
+&emsp; **Người hướng dẫn doanh nghiệp:** Nguyễn Gia Hưng
 
-&emsp; **Vị trí thực tập:** Workforce Bootcamp - First Cloud AI Journey
+&emsp; **Công ty thực tập:** Công ty TNHH Amazon Web Services Việt Nam
 
-&emsp; **Thời gian thực tập:** Từ ngày 17/04/2026 đến ngày 10/07/2026
+&emsp; **Chương trình / Bộ phận:** First Cloud AI Journey – Bộ phận Cloud Computing
 
-![Ảnh đại diện của bạn](/images/avatar.jpg)
+&emsp; **Địa điểm:** Văn phòng Hà Nội: Tầng 7, Grand Tera, 36 Cát Linh, Đống Đa, Hà Nội
 
-
+&emsp; **Thời gian thực tập:** Từ ngày 01/08/2026 đến ngày 27/09/2026
 
 ### Nội dung báo cáo
 

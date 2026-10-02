@@ -1,41 +1,42 @@
 ---
 title: "Internship Report"
-date: 2026-04-12
+date: 2026-09-27
 weight: 1
 chapter: false
 ---
 
-    
 # Internship Report
 
-
+**Topic:** First Cloud AI Journey – Capstone Project CloudCV
 
 ### Student Information:
-&emsp; **Full Name:** Trần Hoàng Chiến
+&emsp; **Full Name:** Lê Hà Sơn
 
-&emsp; **Phone Number:** 0834972928 
+&emsp; **Student ID:** 0219366
 
-&emsp; **Email:** vc24902@gmail.com
+&emsp; **Class:** 66CNCS (Cohort 66)
 
-&emsp; **University:** Ho Chi Minh City University of Technology
+&emsp; **Major:** Computer Science
 
-&emsp; **Major:** Information Technology
+&emsp; **University:** Hanoi University of Civil Engineering – Faculty of Information Technology
 
-&emsp; **Class:** 22TDHC7
+&emsp; **Academic Supervisor:** MSc. Lê Văn Minh
 
-&emsp; **Internship Company:** Amazon Web Services Viet Nam Company Limited
+&emsp; **Company Mentor:** Nguyễn Gia Hưng
 
-&emsp; **Internship Position:** Workforce Bootcamp - First Cloud AI Journey
+&emsp; **Internship Company:** Amazon Web Services Vietnam Company Limited
 
-&emsp; **Internship Duration:** From 17/04/2026 to 30/7/2026
+&emsp; **Program / Department:** First Cloud AI Journey – Cloud Computing Department
 
-![Your profile picture](/images/avatar.jpg)
+&emsp; **Location:** Hanoi Office: 7th Floor, Grand Tera, 36 Cat Linh, Dong Da, Hanoi
+
+&emsp; **Internship Duration:** From 01/08/2026 to 27/09/2026
 
 ### Report Content
 
 1.  [Worklog](1-Worklog/)
 2.  [Proposal](2-Proposal/)
-3.  [BlogsPosted](3-BlogsPosted/)
+3.  [Blogs Posted](3-BlogsPosted/)
 4.  [Events Participated](4-EventParticipated/)
 5.  [Workshop](5-Workshop/)
 6.  [Self-evaluation](6-Self-evaluation/)
