@@ -9,7 +9,7 @@ chapter: false
 
 **Topic:** First Cloud AI Journey – Capstone Project CloudCV
 
-<img src="images/avatar.jpg" alt="Lê Hà Sơn" width="180">
+<img src="/images/avatar.jpg" alt="Lê Hà Sơn" width="180">
 
 ### Student Information:
 &emsp; **Full Name:** Lê Hà Sơn
