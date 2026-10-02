@@ -19,8 +19,8 @@ pre: " <b> 1.1. </b> "
 
 | Task | Start date | End date | Source |
 | --- | --- | --- | --- |
-| Session at AWS Hanoi office: AWS fundamentals | 01/08/2026 | 01/08/2026 | https://cloudjourney.awsstudygroup.com/ |
-| Session at AWS Hanoi office: main service groups | 08/08/2026 | 08/08/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Session at AWS Hanoi office: AWS fundamentals and main service groups | 01/08/2026 | 01/08/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Session at AWS Hanoi office: AWS fundamentals and main service groups | 08/08/2026 | 08/08/2026 | https://cloudjourney.awsstudygroup.com/ |
 | Lab 000001 (AWS Free Tier): create practice account<br>- Enable root MFA, create a daily-use IAM user<br>- Create an AWS Budgets cost alert | 01/08/2026 | 14/08/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Week 1 results:

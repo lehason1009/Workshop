@@ -19,8 +19,8 @@ pre: " <b> 1.1. </b> "
 
 | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- |
-| Buổi học tại văn phòng AWS Hà Nội: khái niệm nền về AWS | 01/08/2026 | 01/08/2026 | https://cloudjourney.awsstudygroup.com/ |
-| Buổi học tại văn phòng AWS Hà Nội: các nhóm dịch vụ chính | 08/08/2026 | 08/08/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Buổi học tại văn phòng AWS Hà Nội: khái niệm nền và các nhóm dịch vụ chính | 01/08/2026 | 01/08/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Buổi học tại văn phòng AWS Hà Nội: khái niệm nền và các nhóm dịch vụ chính | 08/08/2026 | 08/08/2026 | https://cloudjourney.awsstudygroup.com/ |
 | Lab 000001 (AWS Free Tier): tạo tài khoản thực hành<br>- Bật MFA cho root, tạo IAM user dùng hằng ngày<br>- Tạo ngân sách AWS Budgets để cảnh báo chi phí | 01/08/2026 | 14/08/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Kết quả đạt được tuần 1:

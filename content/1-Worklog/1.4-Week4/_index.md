@@ -19,8 +19,8 @@ pre: " <b> 1.4. </b> "
 
 | Task | Start date | End date | Source |
 | --- | --- | --- | --- |
-| Session at AWS Hanoi office: Lambda and API Gateway | 12/09/2026 | 12/09/2026 | https://cloudjourney.awsstudygroup.com/ |
-| Session at AWS Hanoi office: CloudWatch and CloudTrail | 19/09/2026 | 19/09/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Session at AWS Hanoi office: serverless (Lambda, API Gateway), CloudWatch, CloudTrail | 12/09/2026 | 12/09/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Session at AWS Hanoi office: serverless (Lambda, API Gateway), CloudWatch, CloudTrail | 19/09/2026 | 19/09/2026 | https://cloudjourney.awsstudygroup.com/ |
 | Design the CloudCV architecture; choose EC2 over Lambda because Docling is heavy<br>- Build the FastAPI API | 12/09/2026 | 19/09/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Week 4 results:

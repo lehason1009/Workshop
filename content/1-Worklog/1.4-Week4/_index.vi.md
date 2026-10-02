@@ -19,8 +19,8 @@ pre: " <b> 1.4. </b> "
 
 | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | --- | --- | --- |
-| Buổi học tại văn phòng AWS Hà Nội: Lambda và API Gateway | 12/09/2026 | 12/09/2026 | https://cloudjourney.awsstudygroup.com/ |
-| Buổi học tại văn phòng AWS Hà Nội: CloudWatch và CloudTrail | 19/09/2026 | 19/09/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Buổi học tại văn phòng AWS Hà Nội: serverless (Lambda, API Gateway), CloudWatch, CloudTrail | 12/09/2026 | 12/09/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Buổi học tại văn phòng AWS Hà Nội: serverless (Lambda, API Gateway), CloudWatch, CloudTrail | 19/09/2026 | 19/09/2026 | https://cloudjourney.awsstudygroup.com/ |
 | Thiết kế kiến trúc CloudCV, chọn EC2 thay vì Lambda vì Docling nặng<br>- Xây dựng API FastAPI | 12/09/2026 | 19/09/2026 | https://cloudjourney.awsstudygroup.com/ |
 
 ### Kết quả đạt được tuần 4:
