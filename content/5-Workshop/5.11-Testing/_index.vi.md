@@ -35,8 +35,14 @@ Sau khi tạo CV, dùng `GET /cvs` và `GET /cvs/{cvId}` để xác nhận kết
 
 Các trường hợp đã ghi nhận xác nhận luồng API cơ bản, xác thực, kiểm tra tệp và tính bền vững dữ liệu qua S3. Độ chính xác trích xuất cần được đánh giá thêm trên tập CV lớn hơn.
 
-## Demo chức năng CloudCV
+## Module Parse CV mở rộng
 
-Chức năng phân tích CV của **CloudCV** được gọi qua endpoint `POST /v3/resume/cv`. Endpoint nhận một hoặc nhiều tệp (PDF, DOCX...), gộp lại để phân tích và trả về JSON có cấu trúc.
+Sau khi hoàn thành CloudCV, tôi áp dụng cách làm tương tự để phát triển module **Parse CV** (`POST /v3/resume/cv`) trong một hệ thống trích xuất thông tin CV lớn hơn. Phạm vi của tôi chỉ là module này; các chức năng khác của hệ thống (ghép CV–JD, vector hoá, xây dựng JD) không thuộc phần việc của tôi.
 
-![Demo CloudCV: gọi endpoint Parse CV trên Swagger UI (thông tin cá nhân đã được che)](/images/5-Workshop/demo-parse-cv.png)
+Điểm mở rộng so với CloudCV:
+
+- Nhận một hoặc nhiều tệp (PDF, DOCX...) trong cùng một yêu cầu và gộp lại để phân tích.
+- Schema đầu ra thiết kế cho CV tiếng Nhật: họ tên phiên âm (furigana), ngày sinh, địa chỉ, ga gần nhất, tư cách lưu trú, học vấn, kinh nghiệm.
+- Vẫn dùng Docling để chuyển tài liệu thành văn bản; bước trích xuất dùng mô hình ngôn ngữ của OpenAI.
+
+![Gọi thử module Parse CV trên Swagger UI (thông tin cá nhân đã được che)](/images/5-Workshop/demo-parse-cv.png)
