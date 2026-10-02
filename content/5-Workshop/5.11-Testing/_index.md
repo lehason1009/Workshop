@@ -36,8 +36,14 @@ After creating a CV, use `GET /cvs` and `GET /cvs/{cvId}` to confirm the result 
 The recorded cases validate the basic API flow, authentication, file checks, and S3 persistence. Extraction accuracy requires further evaluation on a larger CV dataset.
 
 
-CloudCV Parse CV Demo
+## Extended Parse CV Module
 
-CloudCV's CV parsing feature is exposed through the `POST /v3/resume/cv` endpoint. It accepts one or more files (PDF, DOCX...), merges them for parsing, and returns structured JSON.
+After completing CloudCV, I applied the same approach to develop the **Parse CV** module (`POST /v3/resume/cv`) in a larger CV extraction system. My scope is limited to this module; the system's other features (CV–JD matching, vectorization, JD building) were not part of my work.
 
-![CloudCV demo: calling the Parse CV endpoint in Swagger UI (personal data redacted)](/images/5-Workshop/demo-parse-cv.png)
+Extensions compared to CloudCV:
+
+- Accepts one or more files (PDF, DOCX...) in a single request and merges them for parsing.
+- Output schema designed for Japanese CVs: furigana name, birth date, address, nearest station, residence status, education, experience.
+- Still uses Docling to convert documents to text; extraction uses an OpenAI language model.
+
+![Calling the Parse CV module in Swagger UI (personal data redacted)](/images/5-Workshop/demo-parse-cv.png)
