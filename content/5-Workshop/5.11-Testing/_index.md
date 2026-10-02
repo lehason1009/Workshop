@@ -47,3 +47,11 @@ Extensions compared to CloudCV:
 - Still uses Docling to convert documents to text; extraction uses an OpenAI language model.
 
 ![Calling the Parse CV module in Swagger UI (personal data redacted)](/images/5-Workshop/demo-parse-cv.png)
+
+The module is integrated into the candidate profile creation feature: the user uploads a CV (optionally a Shokumu file), picks a template type, and clicks **AI Analysis**.
+
+![CV upload and template selection screen](/images/5-Workshop/ui-upload-cv.png)
+
+The extracted data is pre-filled into the profile form so the user can review and edit it before saving.
+
+![Parsed result filled into the profile form (personal data redacted)](/images/5-Workshop/ui-parse-result.png)

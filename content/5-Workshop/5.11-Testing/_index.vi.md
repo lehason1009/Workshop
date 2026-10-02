@@ -46,3 +46,11 @@ Sau khi hoàn thành CloudCV, tôi áp dụng cách làm tương tự để phá
 - Vẫn dùng Docling để chuyển tài liệu thành văn bản; bước trích xuất dùng mô hình ngôn ngữ của OpenAI.
 
 ![Gọi thử module Parse CV trên Swagger UI (thông tin cá nhân đã được che)](/images/5-Workshop/demo-parse-cv.png)
+
+Module được tích hợp vào chức năng tạo hồ sơ ứng viên: người dùng tải CV (tuỳ chọn thêm tệp Shokumu), chọn loại template rồi bấm **Phân tích AI**.
+
+![Giao diện tải CV và chọn template](/images/5-Workshop/ui-upload-cv.png)
+
+Kết quả trích xuất được điền sẵn vào biểu mẫu hồ sơ để người dùng kiểm tra và chỉnh sửa trước khi lưu.
+
+![Kết quả phân tích điền vào biểu mẫu hồ sơ (thông tin cá nhân đã được che)](/images/5-Workshop/ui-parse-result.png)
