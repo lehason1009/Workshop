@@ -34,3 +34,10 @@ After creating a CV, use `GET /cvs` and `GET /cvs/{cvId}` to confirm the result 
 ## Test Conclusion
 
 The recorded cases validate the basic API flow, authentication, file checks, and S3 persistence. Extraction accuracy requires further evaluation on a larger CV dataset.
+
+
+## Parse CV Demo at JobShare
+
+Besides CloudCV, I contributed to the **Parse CV** feature (`POST /v3/resume/cv`) of JobShare's *Resume Parser AI System*. My scope is limited to this feature; the system's other feature groups (Matching, Vector, JD Builder, JD) were not part of my work. The endpoint accepts one or more files (PDF, DOCX...), merges them for parsing, and returns structured JSON.
+
+![Calling the Parse CV endpoint in Swagger UI (personal data redacted)](/images/5-Workshop/demo-parse-cv-jobshare.png)
