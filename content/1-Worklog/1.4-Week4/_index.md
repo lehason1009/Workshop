@@ -1,65 +1,29 @@
 ---
 title: "Week 4 Worklog"
-date: 2026-04-12
+date: 2026-09-12
 weight: 4
 chapter: false
 pre: " <b> 1.4. </b> "
 ---
 
-### Week 4 Objectives:
+# Week 4: Lambda, Serverless, CloudWatch, CloudTrail; API design
 
-* Learn Launch Templates.
-* Learn Auto Scaling Groups (ASG).
-* Learn Auto Scaling Policies.
-* Learn Application Load Balancer (ALB).
-* Learn Health Checks.
-* Learn Multi-AZ Deployment and High Availability.
+**Period:** 12/09/2026 – 19/09/2026
 
-### Tasks to be carried out this week:
+### Week 4 goals:
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 1 | - Learn Launch Templates.<br>- Review AMI, instance type, Key Pair and Security Group configuration. | 03/05/2026 | 03/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 2 | - Learn Auto Scaling Groups.<br>- Explore Desired, Minimum and Maximum Capacity.<br>- Review automatic instance replacement. | 04/05/2026 | 04/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | - Learn Auto Scaling Policies.<br>- Review Dynamic Scaling and Target Tracking.<br>- Learn CloudWatch metrics. | 05/05/2026 | 05/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | - Learn Application Load Balancer.<br>- Review Listener, Target Group and Routing Rules.<br>- Learn traffic distribution. | 06/05/2026 | 06/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 5 | - Learn Health Checks.<br>- Review healthy and unhealthy targets.<br>- Learn service monitoring. | 07/05/2026 | 07/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 6 | - Learn Multi-AZ Deployment.<br>- Review High Availability concepts.<br>- Learn fault tolerance. | 08/05/2026 | 08/05/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 7 | - Review weekly topics.<br>- Summarize Scaling services.<br>- Organize learning notes. | 09/05/2026 | 09/05/2026 | https://cloudjourney.awsstudygroup.com/ |
+* Study serverless (Lambda, API Gateway), CloudWatch, and CloudTrail.
+* Design the architecture and build the CloudCV API.
 
-### Week 4 Achievements:
+### Tasks carried out:
 
-* Learned Launch Templates:
-  * AMI.
-  * Instance Type.
-  * Key Pair.
-  * Security Group.
+| Task | Start date | End date | Source |
+| --- | --- | --- | --- |
+| Session at AWS Hanoi office: Lambda and API Gateway | 12/09/2026 | 12/09/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Session at AWS Hanoi office: CloudWatch and CloudTrail | 19/09/2026 | 19/09/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Design the CloudCV architecture; choose EC2 over Lambda because Docling is heavy<br>- Build the FastAPI API | 12/09/2026 | 19/09/2026 | https://cloudjourney.awsstudygroup.com/ |
 
-* Learned Auto Scaling Groups:
-  * Desired Capacity.
-  * Minimum Capacity.
-  * Maximum Capacity.
-  * Automatic instance replacement.
+### Week 4 results:
 
-* Learned Auto Scaling Policies:
-  * Dynamic Scaling.
-  * Target Tracking.
-  * CloudWatch Metrics.
-
-* Learned Application Load Balancer:
-  * Listener.
-  * Target Group.
-  * Routing Rules.
-  * Traffic distribution.
-
-* Learned Health Checks:
-  * Healthy and Unhealthy targets.
-  * Service monitoring.
-  * Instance replacement.
-
-* Learned Multi-AZ Deployment:
-  * High Availability.
-  * Fault tolerance.
-  * Availability Zones.
-
-* Improved understanding of AWS scaling and high availability.
+* Conceptual understanding of serverless.
+* A CloudCV architecture and a complete FastAPI API.

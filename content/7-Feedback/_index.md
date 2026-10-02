@@ -1,51 +1,35 @@
 ---
 title: "Sharing and Feedback"
-date: 2024-01-01
+date: 2026-09-27
 weight: 7
 chapter: false
 pre: " <b> 7. </b> "
 ---
 
+# Sharing and Feedback
 
+## About the Program
 
-## Overall Evaluation
+What I value most in FCAJ is the learning order: each week adds a layer, and by the final project everything learned has a use. It taught me to approach a cloud problem step by step: clarify requirements, sketch the architecture, choose services, build each part, test, then operate.
 
-Participating in the First Cloud AI Journey has been a valuable learning experience. The program combines theory, hands-on labs, technical sharing sessions, and community activities, allowing learners to gradually build practical AWS knowledge.
+Using a single EC2 instance and few services suits a learning project. The system is easy to picture and debug, and it forced me to understand compute, networking, permissions, and storage before moving to more complex models.
 
-## Learning Environment
+## Theory Meets Practice
 
-The learning environment was friendly and supportive. Mentors and community members were always willing to answer questions and share their practical experience.
+- **Computer networks:** IPs, ports, and firewalls became concrete when configuring subnets and Security Groups, and when tracing why the API was unreachable.
+- **Operating systems:** understanding why a container is killed when memory runs out, and how to inspect resources on a Linux server.
+- **Information security:** least privilege applied through an IAM Role instead of stored access keys.
+- **Software engineering:** REST API design (methods, status codes, input validation).
+- **Information extraction:** an LLM with a constrained schema; even strong models need output validation before production use.
 
-## Mentor Support
+## Suggestions
 
-The mentors provided clear explanations and encouraged independent thinking instead of simply giving answers. Their guidance helped me better understand AWS concepts and architecture.
+**For the program:** add a mid-term architecture review. Mentor feedback on the design before implementation would save interns many rewrites.
 
-## Learning Experience
+**For CloudCV:**
 
-The roadmap covered many AWS services, from basic to advanced topics, making it easier to understand how cloud systems are built in real-world environments.
-
-## Skills Gained
-
-Through the program, I improved my:
-
-- AWS Cloud knowledge
-- Linux skills
-- Networking fundamentals
-- Cloud architecture understanding
-- Technical documentation
-- Self-learning ability
-
----
-
-# Suggestions
-
-- Add more real-world architecture case studies.
-- Organize additional hands-on workshops.
-- Continue updating learning materials with the latest AWS services.
-- Increase opportunities for learners to discuss and share project experiences.
-
----
-
-# Final Thoughts
-
-I appreciate the effort of all mentors and organizers in building this learning community. The FCAJ program has motivated me to continue learning AWS Cloud and pursue a career in Cloud Computing.
+- HTTPS and a domain (Nginx or Application Load Balancer); per-user authentication instead of a shared key.
+- Asynchronous processing with a queue and background workers.
+- Replace manual SSH steps with deployment scripts or Infrastructure as Code (CloudFormation, Terraform) and GitHub Actions.
+- Monitoring and alerts with Amazon CloudWatch.
+- A labeled CV dataset to measure per-field extraction quality.

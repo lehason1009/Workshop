@@ -1,329 +1,135 @@
 ---
 title: "Proposal"
-date: 2026-01-01
+date: 2026-08-01
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
 
-# Second-Hand Marketplace
+# CloudCV
 
-## A Cloud-Native Second-Hand Marketplace on AWS
-
----
-
-# 1. Executive Summary
-
-Second-Hand Marketplace is a cloud-based web application that enables users to buy and sell second-hand products through a centralized online marketplace. The platform provides user authentication, product management, category management, image uploading, product searching, shopping cart, checkout, and order management while utilizing AWS managed services to ensure scalability, availability, security, and simplified deployment.
-
-The application is developed using **Node.js**, **Express.js**, **MongoDB Atlas**, and **EJS**. The application is containerized using **Docker** and deployed on **Amazon ECS Fargate** behind an **Application Load Balancer (ALB)**. Docker images are stored in **Amazon ECR**, uploaded product images are stored in **Amazon S3**, and **AWS CodeBuild** automatically builds and deploys the latest application whenever new source code is pushed to GitHub.
-
-The deployment environment also utilizes **Amazon Route 53** for domain management, **AWS Certificate Manager (ACM)** for HTTPS encryption, **Amazon CloudWatch** for monitoring, **AWS IAM** for access control, and **Amazon VPC** for secure networking. The architecture provides automated deployment, centralized storage, simplified management, and a scalable cloud infrastructure suitable for small and medium-sized e-commerce applications.
+## First Cloud AI Journey – Capstone Project CloudCV
 
 ---
 
-# 2. Problem Statement
+# 1. Summary
 
-## Current Problem
+**CloudCV** is a backend REST API that parses CVs automatically. It accepts PDF or DOCX files, converts them to Markdown with **Docling**, calls a large language model (LLM) on **Amazon Bedrock** to extract information, and returns structured JSON.
 
-Many second-hand marketplaces rely on social media platforms or manually managed websites, making product management inefficient and difficult to maintain. Product images are often stored locally, deployments require manual updates, and scaling the application becomes increasingly difficult as the number of users grows.
+The application is written in **FastAPI** and packaged as a **Docker** container running on **Amazon EC2**. Original CVs and JSON results are stored in **Amazon S3**. The instance accesses S3 and Bedrock through a least-privilege **IAM Role**, the network is controlled with **VPC** and **Security Groups**, and **AWS Budgets** sends cost alerts.
 
-Traditional deployment methods also increase downtime, require additional operational effort, and make application maintenance more complicated whenever new features or bug fixes are released.
+The project was carried out over 5 weeks (01/08/2026 – 27/09/2026) in the First Cloud AI Journey program at Amazon Web Services Vietnam Company Limited.
+
+---
+
+# 2. Problem and Solution
+
+## Problem
+
+CVs come in many formats and layouts (single column, two columns, tables...). Reading and entering CV data by hand is slow, and extracting raw text from PDFs often mixes columns together.
 
 ## Solution
 
-The proposed solution develops a cloud-native second-hand marketplace platform using AWS managed services.
-
-Users can register accounts, log in securely, upload products with images, browse products by category, search products, manage shopping carts, place orders, and manage their own product listings through a web application.
-
-Application data is stored in **MongoDB Atlas**, while uploaded product images are stored in **Amazon S3**.
-
-The application is containerized using Docker and deployed on **Amazon ECS Fargate**. Whenever source code is pushed to GitHub, **AWS CodeBuild** automatically builds a Docker image, pushes it to **Amazon ECR**, and deploys the latest version to Amazon ECS.
-
-HTTPS communication is secured using **AWS Certificate Manager (ACM)** and the application is accessible through a custom domain configured using **Amazon Route 53**.
-
-## Benefits
-
-The proposed architecture provides several benefits:
-
-- Simplified application deployment.
-- Automated CI/CD pipeline.
-- Scalable cloud infrastructure.
-- Secure HTTPS communication.
-- Reliable cloud storage.
-- Simplified application maintenance.
-- Reduced operational effort.
-- Easy future scalability.
+- **Docling** converts CVs to Markdown while keeping section headings, bullets, and tables.
+- **An LLM on Amazon Bedrock** extracts information into a fixed schema. The prompt allows only information present in the CV; missing fields are null or empty lists.
+- **Pydantic** validates the result. On a schema error, the app retries once with the error message.
+- The architecture stays minimal, built around a single EC2 instance, to understand the core AWS services in depth.
 
 ---
 
 # 3. Solution Architecture
 
-The application follows a cloud-native container architecture deployed on AWS managed services.
+![CloudCV overall architecture](/images/2-Proposal/kien-truc-cloudcv.png)
 
-## Solution Architecture
+The whole application runs in one Docker container on EC2 with three stages:
 
-![System Architecture](/images/2-Proposal/system_architecture.png)
+1. **API layer (FastAPI):** receives and validates requests.
+2. **Docling:** converts the CV to Markdown.
+3. **Extraction:** calls the LLM on Bedrock and validates the output with Pydantic.
 
-## AWS Services Utilized
+Both the CV file and the JSON result are written to a private S3 bucket, so no separate database is needed.
 
-- Amazon VPC
-- AWS IAM
-- Amazon ECS Fargate
-- Amazon ECR
-- Amazon S3
-- Application Load Balancer (ALB)
-- Amazon Route 53
-- AWS Certificate Manager (ACM)
-- AWS CodeBuild
-- Amazon CloudWatch
-- MongoDB Atlas
+![CV parsing request flow](/images/2-Proposal/luong-xu-ly-cv.png)
 
-## Component Design
+The API is synchronous: the client uploads a file and receives the result in the same request.
 
-### Frontend
+## AWS Services
 
-- HTML
-- CSS
-- JavaScript
-- EJS Template Engine
-
-### Backend
-
-- Node.js
-- Express.js
-- Express Session
-- Multer
-- AWS SDK for JavaScript
-
-### Database
-
-- MongoDB Atlas
-
-### Image Storage
-
-- Amazon S3
-
-### Container Platform
-
-- Docker
-- Amazon ECS Fargate
-
-### Deployment Pipeline
-
-GitHub
-
-↓
-
-AWS CodeBuild
-
-↓
-
-Amazon ECR
-
-↓
-
-Amazon ECS Fargate
+| AWS service | Role |
+| --- | --- |
+| Amazon EC2 | Instance running the Docker container with FastAPI and Docling |
+| Amazon S3 | Stores original CVs and JSON results (private bucket) |
+| Amazon Bedrock | Provides the LLM that extracts CV data into JSON |
+| AWS IAM | IAM user instead of root; least-privilege IAM Role for EC2 |
+| Amazon VPC, Security Group | Public subnet for the instance; only ports 22 and 8000 open |
+| AWS Budgets | Cost alerts |
 
 ---
 
 # 4. Technical Implementation
 
-## Implementation Phases
+## Endpoints
 
-The project was implemented through the following phases:
+Except for `/health`, every call must include the `X-API-Key` header; a missing or invalid key returns 401.
 
-- Research AWS cloud architecture and deployment strategy.
-- Design the overall marketplace system architecture.
-- Develop the backend using Node.js and Express.js.
-- Configure MongoDB Atlas for cloud database storage.
-- Integrate Amazon S3 for product image storage.
-- Containerize the application using Docker.
-- Push Docker images to Amazon ECR.
-- Deploy Docker containers on Amazon ECS Fargate.
-- Configure Application Load Balancer.
-- Configure Amazon Route 53 and AWS Certificate Manager (ACM).
-- Configure AWS CodeBuild for automated build and deployment.
-- Monitor the application using Amazon CloudWatch.
-- Perform system testing and deploy the production environment.
+| Method | Path | Function |
+| --- | --- | --- |
+| GET | `/health` | Service health check |
+| POST | `/cvs` | Upload a CV (multipart/form-data), parse it, return the CV ID and JSON |
+| GET | `/cvs` | List parsed CVs |
+| GET | `/cvs/{cvId}` | Retrieve a CV's JSON result |
+| DELETE | `/cvs/{cvId}` | Delete the CV file and result from S3 |
 
-## Technical Requirements
+## Output JSON Schema
 
-### Programming Languages
+| Field | Type | Meaning |
+| --- | --- | --- |
+| full_name | string | Candidate's full name |
+| email, phone, address | string or null | Contact details |
+| summary | string or null | Profile/career objective |
+| education | list | School, major, degree, period |
+| experience | list | Company, position, period, description |
+| skills | list of strings | Professional skills |
+| languages | list | Languages and proficiency |
+| certifications | list | Certificate, issuer, year |
 
-- JavaScript
-- HTML
-- CSS
+## Infrastructure
 
-### Frameworks
-
-- Express.js
-- EJS
-
-### Database
-
-- MongoDB Atlas
-
-### Cloud Services
-
-- Amazon VPC
-- AWS IAM
-- Amazon ECS Fargate
-- Amazon ECR
-- Amazon S3
-- Application Load Balancer (ALB)
-- Amazon Route 53
-- AWS Certificate Manager (ACM)
-- AWS CodeBuild
-- Amazon CloudWatch
-
-### Development Tools
-
-- Visual Studio Code
-- Git
-- GitHub
-- Docker Desktop
-- MongoDB Compass
----
-
-# 5. Roadmap & Milestones
-
-The project was completed through the following implementation phases.
-
-### Phase 1 – Project Planning
-
-- Analyze system requirements.
-- Design the overall system architecture.
-- Design the MongoDB database structure.
-- Prepare the development environment.
-
-### Phase 2 – Application Development
-
-- Develop user authentication.
-- Develop customer functions.
-- Develop shop management functions.
-- Develop administrator functions.
-- Develop product management.
-- Develop order management.
-
-### Phase 3 – Cloud Integration
-
-- Configure MongoDB Atlas.
-- Integrate Amazon S3 for image storage.
-- Test cloud storage connectivity.
-
-### Phase 4 – Containerization
-
-- Create Dockerfile.
-- Build Docker Image.
-- Test the Docker container locally.
-
-### Phase 5 – AWS Deployment
-
-- Push Docker Image to Amazon ECR.
-- Deploy the application to Amazon ECS Fargate.
-- Configure Application Load Balancer.
-- Configure Amazon Route 53.
-- Configure AWS Certificate Manager (ACM).
-
-### Phase 6 – CI/CD
-
-- Connect GitHub repository.
-- Configure AWS CodeBuild.
-- Automate application deployment.
-
-### Phase 7 – Monitoring & Testing
-
-- Configure Amazon CloudWatch.
-- Perform functional testing.
-- Verify application deployment.
-- Fix deployment issues.
-
-### Phase 8 – Project Completion
-
-- Deploy the production environment.
-- Complete documentation.
-- Demonstrate the completed project.
+- **EC2:** t3.medium, Amazon Linux 2023, 20 GB EBS, public subnet, Elastic IP.
+- **Security Group:** port 22 only for a personal IP, port 8000 for the API.
+- **Docker:** Python 3.12 image with Docling, CPU-only PyTorch, and pre-downloaded models; auto-restart policy.
+- **EC2 IAM Role:** read/write/delete/list objects in the project bucket only, and InvokeModel on the extraction model only.
+- **Bedrock:** called through the boto3 Converse API with temperature 0.
 
 ---
 
-# 6. Budget Estimation
+# 5. Timeline
 
-## Infrastructure Cost Estimate
-
-| Service | Estimated Cost |
-|----------|----------------|
-| Amazon ECS Fargate | ~$0.25/month |
-| Amazon S3 (Storage & Requests) | ~$0.15/month |
-| Amazon ECR | ~$0.03/month |
-| AWS CodeBuild | ~$0.05/month |
-| Application Load Balancer | ~$0.10/month |
-| Amazon CloudWatch | ~$0.02/month |
-| **Total Estimate** | **~$0.60 USD/month** |
-
-### Cost Control Guidelines
-
-- **AWS Budgets:** Automated alerts when costs exceed **$5.00** and **$10.00**.
-- **Amazon ECR Lifecycle Policy:** Automatically remove unused Docker images.
-- **AWS CodeBuild:** Trigger builds only when code is pushed to the GitHub repository.
-- **Post-demo Cleanup:** Remove ECS services, ECR images, unused S3 objects, Application Load Balancer, CloudWatch alarms, ACM certificates, and Route 53 hosted zones after project completion to avoid unnecessary charges.
+| Week | Content | Result |
+| --- | --- | --- |
+| 1 (01/08 – 14/08) | AWS overview; practice account | Done |
+| 2 (15/08 – 28/08) | Core services: EC2, S3, IAM | Done |
+| 3 (29/08 – 11/09) | AWS networking: VPC, Subnet, Internet Gateway | Done |
+| 4 (12/09 – 19/09) | Lambda, Serverless; CloudWatch, CloudTrail | Done (conceptual) |
+| 5 (20/09 – 27/09) | ELB, Auto Scaling, ECS, Docker; Capstone project | Done (except ECS hands-on) |
 
 ---
 
-# 7. Risk Assessment
+# 6. Risks and Limitations
 
-## Risk Matrix
-
-- Amazon ECS deployment failure.
-- MongoDB Atlas connectivity issues.
-- Amazon S3 upload failures.
-- AWS CodeBuild build failures.
-- Route 53 DNS configuration issues.
-- HTTPS certificate configuration issues.
-- Unexpected AWS service charges.
-
-## Mitigation Strategies
-
-- Enable Amazon CloudWatch monitoring.
-- Configure AWS Budgets alerts.
-- Version Docker images using Amazon ECR.
-- Perform regular MongoDB Atlas backups.
-- Apply IAM least privilege policies.
-- Verify Route 53 DNS records before deployment.
-- Validate ACM certificate status before enabling HTTPS.
-
-## Contingency Plans
-
-- Roll back to the previous Docker image.
-- Redeploy the previous Amazon ECS Task Definition.
-- Restore MongoDB Atlas backups.
-- Redeploy through AWS CodeBuild.
-- Reconfigure Route 53 DNS records if necessary.
-- Reissue the ACM certificate when validation fails.
+- Synchronous processing; one instance handles few concurrent requests.
+- HTTP only, no HTTPS or domain yet.
+- Authentication relies on a single shared key.
+- Scanned image CVs need OCR, which is slower and less accurate.
+- Extraction quality has only been reviewed manually on a small sample.
+- To keep costs low, the instance is stopped when idle and spending is tracked with AWS Budgets.
 
 ---
 
-# 8. Expected Results
+# 7. Future Work
 
-## Technical Results
-
-The completed project will provide:
-
-- A fully containerized cloud-native second-hand marketplace platform.
-- Automatic CI/CD deployment using GitHub and AWS CodeBuild.
-- Reliable image storage using Amazon S3.
-- Scalable container deployment using Amazon ECS Fargate.
-- Secure HTTPS communication using AWS Certificate Manager (ACM).
-- Custom domain management using Amazon Route 53.
-- Load balancing using Application Load Balancer.
-- Centralized cloud database using MongoDB Atlas.
-- Resource monitoring using Amazon CloudWatch.
-- Secure access management using AWS IAM.
-
-## Business Value
-
-The project demonstrates the practical implementation of cloud computing, containerization, and DevOps practices using AWS managed services.
-
-The cloud-native architecture simplifies deployment, reduces operational effort, improves scalability, and provides a reliable foundation for future expansion.
-
-Future enhancements may include online payment integration, recommendation systems, notification services, analytics dashboards, and microservice-based architecture while maintaining high availability and operational efficiency.
+- HTTPS and a domain (Nginx or Application Load Balancer), per-user authentication.
+- Asynchronous processing with a queue and background workers.
+- Infrastructure as Code (CloudFormation, Terraform) with GitHub Actions.
+- Monitoring with Amazon CloudWatch.
+- A labeled CV dataset to measure per-field extraction quality.

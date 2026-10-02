@@ -1,63 +1,32 @@
 ---
 title: "Week 2 Worklog"
-date: 2026-04-12
+date: 2026-08-15
 weight: 2
 chapter: false
 pre: " <b> 1.2. </b> "
 ---
 
-### Week 2 Objectives:
+# Week 2: AWS Core Services: EC2, S3, IAM
 
-* Learn Amazon S3 security and Bucket Policy.
-* Practice IAM Role and AWS CLI.
-* Learn EC2 User Data.
-* Learn Amazon RDS MySQL.
-* Connect EC2 with Amazon RDS.
-* Deploy a simple web application on AWS.
+**Period:** 15/08/2026 – 28/08/2026
 
-### Tasks to be carried out this week:
+### Week 2 goals:
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
-| 1 | - Learn Amazon S3 Policy.<br>- Create an S3 Bucket.<br>- Configure Bucket Policy.<br>- Test public access. | 19/04/2026 | 19/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 2 | - Learn IAM Role.<br>- Attach IAM Role to EC2.<br>- Test Amazon S3 access using AWS CLI. | 20/04/2026 | 20/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | - Learn EC2 User Data.<br>- Launch EC2 with User Data.<br>- Install Apache automatically.<br>- Deploy a simple web page. | 21/04/2026 | 21/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | - Configure AWS CLI.<br>- Learn IAM Deny Policy.<br>- Test S3 upload permissions. | 22/04/2026 | 22/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 5 | - Create Amazon RDS MySQL.<br>- Configure Security Group.<br>- Connect EC2 to RDS.<br>- Verify database connection. | 23/04/2026 | 23/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 6 | - Install Apache and PHP.<br>- Connect PHP application to Amazon RDS.<br>- Deploy web application on EC2. | 24/04/2026 | 24/04/2026 | https://cloudjourney.awsstudygroup.com/ |
+* Learn and practice the core services: EC2, S3, IAM.
+* Try Docling locally to prepare for the project.
 
-### Week 2 Achievements:
+### Tasks carried out:
 
-* Learned Amazon S3 security:
-  * Bucket Policy.
-  * Block Public Access.
-  * Public access control.
+| Task | Start date | End date | Source |
+| --- | --- | --- | --- |
+| Session at AWS Hanoi office | 15/08/2026 | 15/08/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Session at AWS Hanoi office | 22/08/2026 | 22/08/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Lab 000004 (Introduction to Amazon EC2): Security Group, key pair, Amazon Linux 2023 instance, SSH, sample web app | 15/08/2026 | 28/08/2026 | https://cloudjourney.awsstudygroup.com/ |
+| S3 (buckets, objects, Block Public Access) and IAM (users, groups, roles, policies, least privilege)<br>- boto3 code to upload/read S3 objects<br>- Attach an IAM Role to EC2 to access S3 without access keys | 15/08/2026 | 28/08/2026 | https://cloudjourney.awsstudygroup.com/ |
+| Install Docling and test it on sample PDF/DOCX CVs | 15/08/2026 | 28/08/2026 | https://cloudjourney.awsstudygroup.com/ |
 
-* Practiced IAM Role:
-  * Create IAM Role.
-  * Attach Role to EC2.
-  * Access Amazon S3 using AWS CLI.
+### Week 2 results:
 
-* Learned EC2 User Data:
-  * Launch EC2 with User Data.
-  * Install Apache automatically.
-  * Deploy a web page.
-
-* Practiced AWS CLI:
-  * Configure AWS CLI.
-  * Verify IAM User.
-  * Upload files to Amazon S3.
-  * Understand IAM Deny Policy.
-
-* Learned Amazon RDS:
-  * Create MySQL database.
-  * Configure Security Group.
-  * Connect EC2 to RDS.
-  * Verify database connection.
-
-* Deployed a web application:
-  * Install Apache and PHP.
-  * Connect PHP to Amazon RDS.
-  * Access the application through Public IP.
-
-* Improved hands-on experience with Amazon S3, IAM, EC2, AWS CLI and Amazon RDS.
+* Understand instance types, AMIs, EBS, public IPs, and EC2 billing.
+* Access S3 from EC2 via an IAM Role without stored access keys.
+* Docling preserves CV sections, bullets, and tables, including two-column layouts.

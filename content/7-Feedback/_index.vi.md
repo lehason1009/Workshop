@@ -1,48 +1,35 @@
 ---
 title: "Chia sẻ, đóng góp ý kiến"
-date: 2024-01-01
+date: 2026-09-27
 weight: 7
 chapter: false
 pre: " <b> 7. </b> "
 ---
 
+# Chia sẻ, đóng góp ý kiến
 
+## Nhận xét về chương trình
 
-### Đánh giá chung
+Điều tôi thấy hợp lý nhất ở chương trình FCAJ là trình tự học: mỗi tuần thêm một lớp kiến thức, và đến dự án cuối thì mọi thứ đã học đều có chỗ dùng. Nhờ đó tôi quen dần với cách làm một bài toán trên đám mây theo từng bước: làm rõ yêu cầu, phác kiến trúc, chọn dịch vụ, dựng từng phần, kiểm thử rồi mới vận hành.
 
-**1. Đánh giá tổng quan**  
-Tham gia chương trình First Cloud AI Journey là một trải nghiệm học tập rất bổ ích. Chương trình kết hợp giữa lý thuyết, các bài thực hành (hands-on labs), các buổi chia sẻ kỹ thuật và hoạt động cộng đồng, giúp người học từng bước xây dựng nền tảng kiến thức thực tiễn về AWS.
+Chọn một máy ảo EC2 và ít dịch vụ là phù hợp với quy mô một dự án học tập. Hệ thống dễ hình dung, dễ tìm lỗi, và buộc tôi phải hiểu rõ máy ảo, mạng, phân quyền và lưu trữ trước khi nghĩ tới những mô hình phức tạp hơn.
 
-**2. Môi trường học tập**  
-Môi trường học tập thân thiện và luôn sẵn sàng hỗ trợ. Các mentor và thành viên trong cộng đồng luôn nhiệt tình giải đáp thắc mắc và chia sẻ những kinh nghiệm thực tế.
+## Liên hệ giữa lý thuyết và thực tế
 
-**3. Sự hỗ trợ của mentor**  
-Các mentor giải thích rõ ràng, dễ hiểu và luôn khuyến khích người học tự tìm tòi, suy nghĩ thay vì chỉ đưa ra đáp án. Sự hướng dẫn của mentor giúp tôi hiểu sâu hơn về các khái niệm và kiến trúc AWS.
+- **Mạng máy tính:** địa chỉ IP, cổng và tường lửa trở nên rất cụ thể khi cấu hình subnet và Security Group, và khi phải tìm vì sao API không gọi được từ bên ngoài.
+- **Hệ điều hành:** hiểu vì sao container bị tắt khi máy hết RAM và cách xem tài nguyên trên máy chủ Linux.
+- **An toàn thông tin:** áp dụng nguyên tắc cấp quyền tối thiểu bằng IAM Role thay vì để khoá truy cập trên máy.
+- **Công nghệ phần mềm:** thiết kế REST API (phương thức, mã trạng thái, kiểm tra đầu vào).
+- **Trích xuất thông tin:** dùng LLM kèm schema ràng buộc. Mô hình dù mạnh vẫn cần một lớp kiểm tra đầu ra thì mới đưa được vào hệ thống thật.
 
-**4. Trải nghiệm học tập**  
-Lộ trình học bao gồm nhiều dịch vụ AWS từ cơ bản đến nâng cao, giúp tôi dễ dàng hiểu được cách xây dựng và vận hành các hệ thống Cloud trong môi trường thực tế.
+## Đề xuất
 
-**5. Những kỹ năng đạt được**  
-Thông qua chương trình, tôi đã cải thiện được:
+**Về chương trình:** thêm một buổi góp ý kiến trúc vào giữa kỳ. Nếu mentor nhận xét bản thiết kế trước khi triển khai, thực tập sinh sẽ tránh được nhiều lần làm lại.
 
-- Kiến thức về AWS Cloud.
-- Kỹ năng sử dụng Linux.
-- Kiến thức nền tảng về Networking.
-- Hiểu biết về kiến trúc Cloud.
-- Kỹ năng viết tài liệu kỹ thuật.
-- Khả năng tự học.
+**Về hướng phát triển CloudCV:**
 
----
-
-### Đề xuất
-
-- Bổ sung thêm các tình huống và kiến trúc hệ thống thực tế.
-- Tổ chức thêm nhiều workshop thực hành.
-- Tiếp tục cập nhật tài liệu theo các dịch vụ AWS mới.
-- Tăng thêm cơ hội để học viên trao đổi và chia sẻ kinh nghiệm dự án.
-
----
-
-### Cảm nghĩ cuối cùng
-
-Tôi đánh giá cao sự nỗ lực của các mentor và ban tổ chức trong việc xây dựng cộng đồng học tập này. Chương trình **First Cloud AI Journey** đã tạo động lực để tôi tiếp tục học tập AWS Cloud và theo đuổi định hướng nghề nghiệp trong lĩnh vực **Cloud Computing**.
+- Đưa API lên HTTPS và gắn tên miền (Nginx hoặc Application Load Balancer); thay khoá dùng chung bằng xác thực theo từng người dùng.
+- Xử lý bất đồng bộ bằng hàng đợi và tiến trình nền.
+- Bỏ thao tác tay qua SSH: script triển khai hoặc Infrastructure as Code (CloudFormation, Terraform) kết hợp GitHub Actions.
+- Giám sát bằng Amazon CloudWatch: thu log và đặt cảnh báo.
+- Lập bộ CV có gán nhãn để đo chất lượng trích xuất theo từng trường.
